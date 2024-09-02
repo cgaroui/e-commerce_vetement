@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ClientRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -34,6 +36,31 @@ class Client
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $dateInscription = null;
+
+    /**
+     * @var Collection<int, AdresseClient>
+     */
+    #[ORM\OneToMany(targetEntity: AdresseClient::class, mappedBy: 'client')]
+    private Collection $adresseClients;
+
+    /**
+     * @var Collection<int, Likes>
+     */
+    #[ORM\OneToMany(targetEntity: Likes::class, mappedBy: 'client')]
+    private Collection $likes;
+
+    /**
+     * @var Collection<int, Favoris>
+     */
+    #[ORM\OneToMany(targetEntity: Favoris::class, mappedBy: 'client')]
+    private Collection $favoris;
+
+    public function __construct()
+    {
+        $this->adresseClients = new ArrayCollection();
+        $this->likes = new ArrayCollection();
+        $this->favoris = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -120,6 +147,96 @@ class Client
     public function setDateInscription(\DateTimeInterface $dateInscription): static
     {
         $this->dateInscription = $dateInscription;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, AdresseClient>
+     */
+    public function getAdresseClients(): Collection
+    {
+        return $this->adresseClients;
+    }
+
+    public function addAdresseClient(AdresseClient $adresseClient): static
+    {
+        if (!$this->adresseClients->contains($adresseClient)) {
+            $this->adresseClients->add($adresseClient);
+            $adresseClient->setClient($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAdresseClient(AdresseClient $adresseClient): static
+    {
+        if ($this->adresseClients->removeElement($adresseClient)) {
+            // set the owning side to null (unless already changed)
+            if ($adresseClient->getClient() === $this) {
+                $adresseClient->setClient(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Likes>
+     */
+    public function getLikes(): Collection
+    {
+        return $this->likes;
+    }
+
+    public function addLike(Likes $like): static
+    {
+        if (!$this->likes->contains($like)) {
+            $this->likes->add($like);
+            $like->setClient($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLike(Likes $like): static
+    {
+        if ($this->likes->removeElement($like)) {
+            // set the owning side to null (unless already changed)
+            if ($like->getClient() === $this) {
+                $like->setClient(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Favoris>
+     */
+    public function getFavoris(): Collection
+    {
+        return $this->favoris;
+    }
+
+    public function addFavori(Favoris $favori): static
+    {
+        if (!$this->favoris->contains($favori)) {
+            $this->favoris->add($favori);
+            $favori->setClient($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFavori(Favoris $favori): static
+    {
+        if ($this->favoris->removeElement($favori)) {
+            // set the owning side to null (unless already changed)
+            if ($favori->getClient() === $this) {
+                $favori->setClient(null);
+            }
+        }
 
         return $this;
     }
