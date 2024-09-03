@@ -33,9 +33,16 @@ class Adresse
     #[ORM\OneToMany(targetEntity: AdresseClient::class, mappedBy: 'adresse')]
     private Collection $adresseClients;
 
+    /**
+     * @var Collection<int, Livraison>
+     */
+    #[ORM\OneToMany(targetEntity: Livraison::class, mappedBy: 'adresse')]
+    private Collection $livraisons;
+
     public function __construct()
     {
         $this->adresseClients = new ArrayCollection();
+        $this->livraisons = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -115,6 +122,36 @@ class Adresse
             // set the owning side to null (unless already changed)
             if ($adresseClient->getAdresse() === $this) {
                 $adresseClient->setAdresse(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Livraison>
+     */
+    public function getLivraisons(): Collection
+    {
+        return $this->livraisons;
+    }
+
+    public function addLivraison(Livraison $livraison): static
+    {
+        if (!$this->livraisons->contains($livraison)) {
+            $this->livraisons->add($livraison);
+            $livraison->setAdresse($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLivraison(Livraison $livraison): static
+    {
+        if ($this->livraisons->removeElement($livraison)) {
+            // set the owning side to null (unless already changed)
+            if ($livraison->getAdresse() === $this) {
+                $livraison->setAdresse(null);
             }
         }
 

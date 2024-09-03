@@ -34,6 +34,9 @@ class Commentaire
     #[ORM\OneToMany(targetEntity: Likes::class, mappedBy: 'comentaire')]
     private Collection $likes;
 
+    #[ORM\ManyToOne(inversedBy: 'commentaires')]
+    private ?Produit $produit = null;
+
     public function __construct()
     {
         $this->likes = new ArrayCollection();
@@ -118,6 +121,18 @@ class Commentaire
                 $like->setComentaire(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getProduit(): ?Produit
+    {
+        return $this->produit;
+    }
+
+    public function setProduit(?Produit $produit): static
+    {
+        $this->produit = $produit;
 
         return $this;
     }

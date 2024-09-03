@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ProspetRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -19,6 +21,17 @@ class Prospet
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $dateInscription = null;
+
+    /**
+     * @var Collection<int, NewsletterProspet>
+     */
+    #[ORM\OneToMany(targetEntity: NewsletterProspet::class, mappedBy: 'prospet')]
+    private Collection $newsletterProspets;
+
+    public function __construct()
+    {
+        $this->newsletterProspets = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -45,6 +58,36 @@ class Prospet
     public function setDateInscription(\DateTimeInterface $dateInscription): static
     {
         $this->dateInscription = $dateInscription;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, NewsletterProspet>
+     */
+    public function getNewsletterProspets(): Collection
+    {
+        return $this->newsletterProspets;
+    }
+
+    public function addNewsletterProspet(NewsletterProspet $newsletterProspet): static
+    {
+        if (!$this->newsletterProspets->contains($newsletterProspet)) {
+            $this->newsletterProspets->add($newsletterProspet);
+            $newsletterProspet->setProspet($this);
+        }
+
+        return $this;
+    }
+
+    public function removeNewsletterProspet(NewsletterProspet $newsletterProspet): static
+    {
+        if ($this->newsletterProspets->removeElement($newsletterProspet)) {
+            // set the owning side to null (unless already changed)
+            if ($newsletterProspet->getProspet() === $this) {
+                $newsletterProspet->setProspet(null);
+            }
+        }
 
         return $this;
     }

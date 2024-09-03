@@ -55,11 +55,18 @@ class Client
     #[ORM\OneToMany(targetEntity: Favoris::class, mappedBy: 'client')]
     private Collection $favoris;
 
+    /**
+     * @var Collection<int, Commande>
+     */
+    #[ORM\OneToMany(targetEntity: Commande::class, mappedBy: 'client')]
+    private Collection $commandes;
+
     public function __construct()
     {
         $this->adresseClients = new ArrayCollection();
         $this->likes = new ArrayCollection();
         $this->favoris = new ArrayCollection();
+        $this->commandes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -235,6 +242,36 @@ class Client
             // set the owning side to null (unless already changed)
             if ($favori->getClient() === $this) {
                 $favori->setClient(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Commande>
+     */
+    public function getCommandes(): Collection
+    {
+        return $this->commandes;
+    }
+
+    public function addCommande(Commande $commande): static
+    {
+        if (!$this->commandes->contains($commande)) {
+            $this->commandes->add($commande);
+            $commande->setClient($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCommande(Commande $commande): static
+    {
+        if ($this->commandes->removeElement($commande)) {
+            // set the owning side to null (unless already changed)
+            if ($commande->getClient() === $this) {
+                $commande->setClient(null);
             }
         }
 

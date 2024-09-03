@@ -34,6 +34,12 @@ class Commande
     #[ORM\OneToMany(targetEntity: DetailCommande::class, mappedBy: 'commande')]
     private Collection $detailCommandes;
 
+    #[ORM\ManyToOne(inversedBy: 'commandes')]
+    private ?Client $client = null;
+
+    #[ORM\ManyToOne(inversedBy: 'commandes')]
+    private ?Livraison $livraison = null;
+
     public function __construct()
     {
         $this->detailCommandes = new ArrayCollection();
@@ -118,6 +124,30 @@ class Commande
                 $detailCommande->setCommande(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getClient(): ?Client
+    {
+        return $this->client;
+    }
+
+    public function setClient(?Client $client): static
+    {
+        $this->client = $client;
+
+        return $this;
+    }
+
+    public function getLivraison(): ?Livraison
+    {
+        return $this->livraison;
+    }
+
+    public function setLivraison(?Livraison $livraison): static
+    {
+        $this->livraison = $livraison;
 
         return $this;
     }

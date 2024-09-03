@@ -58,12 +58,19 @@ class Produit
     #[ORM\OneToMany(targetEntity: MatiereProduit::class, mappedBy: 'produit')]
     private Collection $matiereProduits;
 
+    /**
+     * @var Collection<int, Commentaire>
+     */
+    #[ORM\OneToMany(targetEntity: Commentaire::class, mappedBy: 'produit')]
+    private Collection $commentaires;
+
     public function __construct()
     {
         $this->detailCommandes = new ArrayCollection();
         $this->detailProduits = new ArrayCollection();
         $this->favoris = new ArrayCollection();
         $this->matiereProduits = new ArrayCollection();
+        $this->commentaires = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -257,6 +264,36 @@ class Produit
             // set the owning side to null (unless already changed)
             if ($matiereProduit->getProduit() === $this) {
                 $matiereProduit->setProduit(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Commentaire>
+     */
+    public function getCommentaires(): Collection
+    {
+        return $this->commentaires;
+    }
+
+    public function addCommentaire(Commentaire $commentaire): static
+    {
+        if (!$this->commentaires->contains($commentaire)) {
+            $this->commentaires->add($commentaire);
+            $commentaire->setProduit($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCommentaire(Commentaire $commentaire): static
+    {
+        if ($this->commentaires->removeElement($commentaire)) {
+            // set the owning side to null (unless already changed)
+            if ($commentaire->getProduit() === $this) {
+                $commentaire->setProduit(null);
             }
         }
 
