@@ -32,14 +32,23 @@ class RegistrationController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             /** @var string $plainPassword */
             $plainPassword = $form->get('plainPassword')->getData();
+            $confirmPassword = $form->get('confirmPassword')->getData();
 
-            // encode the plain password
-            $user->setPassword($userPasswordHasher->hashPassword($user, $plainPassword));
+            // Vérifier que les mots de passe correspondent
+            if ($plainPassword !== $confirmPassword) {
+                $this->addFlash('error', 'Passwords do not match');
+                return $this->redirectToRoute('app_register');
+            }
 
+            // Encoder le mot de passe
+            $encodedPassword = $userPasswordHasher->hashPassword($user, $plainPassword);
+            $user->setPassword($encodedPassword);
+
+            // Enregistrer l'utilisateur dans la base de données
             $entityManager->persist($user);
             $entityManager->flush();
 
-            // generate a signed url and email it to the user
+            // Générer une URL signée et envoyer l'email de confirmation
             $this->emailVerifier->sendEmailConfirmation('app_verify_email', $user,
                 (new TemplatedEmail())
                     ->from(new Address('exemple@mail.com', 'Service client Acme'))
@@ -48,13 +57,14 @@ class RegistrationController extends AbstractController
                     ->htmlTemplate('registration/confirmation_email.html.twig')
             );
 
-            // do anything else you need here, like send an email
+            // Ajouter un message flash et rediriger
+            $this->addFlash('success', 'Registration successful! Please check your email to confirm your account.');
 
             return $this->redirectToRoute('_profiler_home');
         }
 
         return $this->render('registration/register.html.twig', [
-            'registrationForm' => $form,
+            'registrationForm' => $form->createView(),
         ]);
     }
 
