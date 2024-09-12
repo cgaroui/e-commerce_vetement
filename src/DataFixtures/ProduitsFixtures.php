@@ -19,11 +19,13 @@ class ProduitsFixtures extends Fixture
             $produit->setNom($faker->word); //pour générer un nom de produit alétoire 
             $produit->setReference($faker->word); //pour générer un nom de produit alétoire 
             $produit->setReference($faker->bothify('REF-####'));  // Générer une référence aléatoire
-            $produit->setPrix($faker->numberBetween(1000, 100000));  // Générer un prix entre 10 et 1000 euros
+            $produit->setPrix($faker->numberBetween(1, 300));  // Générer un prix entre 1 et 100 euros
             $produit->setDescription($faker->sentence(10));  // Générer une description
-            $produit->setImage($faker->imageUrl(640, 480, 'technics'));  // Générer une image
+            $produit->setImage($faker->imageUrl(100, 100, 'technics'));  // Générer une image
             $produit->setReduction($faker->numberBetween(0, 30));  // Générer une réduction
 
+
+            
             $manager->persist($produit);  // Persister l'entité Produit
         }
 
