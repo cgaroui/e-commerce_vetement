@@ -1,0 +1,59 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ajouter un nouveau produit{% endblock %}
+
+{% block body %}
+    <div class="container mt-5">
+
+        <h1>Ajouter un nouveau produit</h1>
+
+        {# Affichage des messages flash (succès ou erreur) #}
+        {% for message in app.flashes('success') %}
+            <div class="alert alert-success">
+                {{ message }}
+            </div>
+        {% endfor %}
+
+        {# Formulaire d'ajout d'un produit c chaque div corespond à un champs) #}
+
+        <div class="card">
+            <div class="card-body">
+                {{ form_start(form) }}
+                
+                <div class="mb-3">
+                    {{ form_label(form.nom) }}
+                    {{ form_widget(form.nom, {'attr': {'class': 'form-control'}}) }}
+                    {{ form_errors(form.nom) }}
+                </div>
+
+                <div class="mb-3">
+                    {{ form_label(form.prix) }}
+                    {{ form_widget(form.prix, {'attr': {'class': 'form-control'}}) }}
+                    {{ form_errors(form.prix) }}
+                </div>
+
+                <div class="mb-3">
+                    {{ form_label(form.description) }}
+                    {{ form_widget(form.description, {'attr': {'class': 'form-control'}}) }}
+                    {{ form_errors(form.description) }}
+                </div>
+
+                <div class="mb-3">
+                    {{ form_label(form.image) }}
+                    {{ form_widget(form.image, {'attr': {'class': 'form-control'}}) }}
+                    {{ form_errors(form.image) }}
+                </div>
+
+                <div class="mb-3">
+                    {{ form_label(form.reduction) }}
+                    {{ form_widget(form.reduction, {'attr': {'class': 'form-control'}}) }}
+                    {{ form_errors(form.reduction) }}
+                </div>
+
+                <button type="submit" class="btn btn-primary">Ajouter</button>
+
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -9,6 +9,7 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
+
 #[ORM\Entity(repositoryClass: ProduitRepository::class)]
 class Produit
 {
@@ -34,6 +35,18 @@ class Produit
 
     #[ORM\Column(nullable: true)]
     private ?int $reduction = null;
+
+    #[ORM\PrePersist]
+    public function generateReference(): void
+    {
+        dump('PrePersist is called'); // Vérification
+        if ($this->reference === null) {
+            $this->reference = sprintf('%06d', random_int(0, 999999));
+        }
+    }
+
+
+
 
     /**
      * @var Collection<int, DetailCommande>

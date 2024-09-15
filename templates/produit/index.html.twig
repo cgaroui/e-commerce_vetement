@@ -18,6 +18,14 @@
                         <h5 class="card-title">{{ produit.nom }}</h5>
                       
                         <p class="card-text">{{ produit.prix }} €</p>
+
+
+                        <form method="post" action="{{ path('supprimer_produit', {id: produit.id}) }}" onsubmit="return confirm('Voulez-vous vraiment supprimer ce produit ?');">
+                            <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ produit.id) }}">
+                            <button class="btn btn-danger">Supprimer</button>
+                        </form>
+                       
+                        
                     </div>
                 </div>
             </div>
@@ -26,6 +34,7 @@
     <div class="pagination">
         {{ knp_pagination_render(produits) }}
     </div>
+
     
 </div>
 
