@@ -57,10 +57,10 @@ class ProduitController extends AbstractController
 
     
     #[Route('/produit/edit/{id}', name: 'edit_produit')]
-    public function edit(Request $request, EntityManagerInterface $entityManager, $id)
+    public function edit(Request $request, EntityManagerInterface $manager, $id)
     {
         // Récupération du produit par son ID
-        $produit = $entityManager->getRepository(Produit::class)->find($id);
+        $produit = $manager->getRepository(Produit::class)->find($id);
 
         // Si le produit n'existe pas, on lève une erreur 404
         if (!$produit) {
@@ -76,28 +76,31 @@ class ProduitController extends AbstractController
         // Si le formulaire est soumis et valide
         if ($form->isSubmitted() && $form->isValid()) {
             // Pas besoin de persist car l'entité existe déjà
-            $entityManager->flush();
+            $manager->flush();
 
             // Ajouter un message de succès
             $this->addFlash('success', 'Le produit a bien été modifié.');
 
-            // Redirection vers la liste des produits (par exemple)
+            // Redirection vers la liste des produits
             return $this->redirectToRoute('app_produit');
         }
 
         // Affichage du formulaire d'édition
-        return $this->render('produit/', [
-            'form' => $form->createView(),
-            'produit' => $produit // Optionnel si tu veux afficher le produit dans la vue
-        ]);
-    }
+        return $this->render('produit/edit.html.twig', [
+            'form' => $form->createView() ,
+            'produit' => $produit
+            ]);
+    }    
+           
+        
+   
 
 
     #[Route('/produit/supprimer/{id}', name: 'supprimer_produit')]
-    public function delete(Request $request, EntityManagerInterface $entityManager, $id)
+    public function delete(Request $request, EntityManagerInterface $manager, $id)
     {
         // Récupération du produit par son ID
-        $produit = $entityManager->getRepository(Produit::class)->find($id);
+        $produit = $manager->getRepository(Produit::class)->find($id);
 
         // Si le produit n'existe pas, on lève une erreur 404
         if (!$produit) {
@@ -107,8 +110,8 @@ class ProduitController extends AbstractController
         // Vérifier le token CSRF pour la sécurité (facultatif mais recommandé)
         if ($this->isCsrfTokenValid('delete'.$produit->getId(), $request->request->get('_token'))) {
             // Suppression du produit
-            $entityManager->remove($produit);
-            $entityManager->flush();
+            $manager->remove($produit);
+            $manager->flush();
 
             // Message flash pour confirmer la suppression
             $this->addFlash('success', 'Le produit a bien été supprimé.');

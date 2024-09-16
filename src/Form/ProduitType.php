@@ -60,11 +60,9 @@ class ProduitType extends AbstractType
             // Champ image, gestion du fichier (non mappé à l'entité)
             ->add('image', FileType::class, [
                 'label' => 'Image du produit',
-                'mapped' => false, // Comme tu stockeras probablement seulement le nom du fichier dans la base de données
                 'required' => false,
                 'constraints' => [
                     new Assert\Image([
-                        'maxSize' => '2M',
                         'mimeTypesMessage' => 'Veuillez uploader une image valide (JPG, PNG, etc.).'
                     ])
                 ]

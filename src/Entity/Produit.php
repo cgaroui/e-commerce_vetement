@@ -9,7 +9,7 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
-
+#[ORM\HasLifecycleCallbacks]
 #[ORM\Entity(repositoryClass: ProduitRepository::class)]
 class Produit
 {
@@ -37,11 +37,10 @@ class Produit
     private ?int $reduction = null;
 
     #[ORM\PrePersist]
-    public function generateReference(): void
+    public function genereReference(): void
     {
-        dump('PrePersist is called'); // Vérification
         if ($this->reference === null) {
-            $this->reference = sprintf('%06d', random_int(0, 999999));
+            $this->reference = sprintf('%06d', random_int(0, 999999)); // Générer un code à 6 chiffres
         }
     }
 
