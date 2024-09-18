@@ -7,7 +7,6 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
@@ -58,7 +57,7 @@ class ProduitType extends AbstractType
             ])
             
             // Champ image, gestion du fichier (non mappé à l'entité)
-            ->add('image', FileType::class, [
+            ->add('image', TextType::class, [
                 'label' => 'Image du produit',
                 'required' => false,
                 'constraints' => [
@@ -89,6 +88,6 @@ class ProduitType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Produit::class,
-        ]);
+        ]);  
     }
 }
