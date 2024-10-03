@@ -20,7 +20,7 @@ class ProduitController extends AbstractController
     {
         $produits = $paginator->paginate( 
         $repository->findAll(),
-        $request->query->getInt('page', 1), /*page number*/
+        $request->query->getInt('page', 1), /*numero de page*/
         9 /*limit par page*/
             );
 
@@ -34,10 +34,11 @@ class ProduitController extends AbstractController
     {
         $produit = new Produit();
         $form = $this->createForm(ProduitType::class, $produit);
-
+       
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            // Persist le produit
+            // Persist le produit 
+           
             $manager->persist($produit);
             // Enregistre les données dans la base de données
             $manager->flush();

@@ -77,7 +77,7 @@ class ProduitType extends AbstractType
                     ]),
                     new Assert\LessThanOrEqual([
                         'value' => 100,
-                        'messssage' => 'La réduction ne peut pas dépasser 100%.'
+                        'message' => 'La réduction ne peut pas dépasser 100%.'
                     ])
                 ]
             ]);
