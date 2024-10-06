@@ -7,6 +7,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
@@ -57,14 +58,15 @@ class ProduitType extends AbstractType
             ])
             
             // Champ image, gestion du fichier (non mappé à l'entité)
-            ->add('image', TextType::class, [
+            ->add('image', FileType::class, [
                 'label' => 'Image du produit',
                 'required' => false,
                 'constraints' => [
                     new Assert\Image([
                         'mimeTypesMessage' => 'Veuillez uploader une image valide (JPG, PNG, etc.).'
                     ])
-                ]
+                    ],
+                'data_class' => null,
             ])
             
             // Champ réduction optionnel avec une contrainte pour s'assurer qu'il est positif et raisonnable

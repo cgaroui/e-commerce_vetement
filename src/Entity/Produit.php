@@ -10,6 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use \DateTimeImmutable;
 
 
 
@@ -30,7 +31,7 @@ class Produit
     #[ORM\Column(length: 50)]
     private ?string $nom = null;
 
-    #[Vich\UploadableField(mapping: 'products', fileNameProperty: 'imageName', size: 'imageSize')]
+    #[Vich\UploadableField(mapping: 'produits_images', fileNameProperty: 'imageName')]
     private ?File $imageFile = null;
 
     #[ORM\Column(nullable: true)]
@@ -47,6 +48,10 @@ class Produit
 
     #[ORM\Column(nullable: true)]
     private ?int $reduction = null;
+
+    // #[ORM\Column(type: 'datetime_immutable', nullable: true)]
+    // private ?\DateTimeImmutable $updatedAt = null;
+
 
     #[ORM\PrePersist]
     public function genereReference(): void
@@ -127,6 +132,34 @@ class Produit
         return $this;
     }
 
+    
+
+    // public function setImageFile(?File $imageFile = null): void
+    // {
+    //     $this->imageFile = $imageFile;
+
+    //     if (null !== $imageFile) {
+        
+    //         $this->updatedAt = new \DateTimeImmutable();
+    //     }
+    // }
+
+    public function getImageFile(): ?File
+    {
+        return $this->imageFile;
+    }
+
+    public function setImageName(?string $imageName): void
+    {
+        $this->imageName = $imageName;
+    }
+
+    public function getImageName(): ?string
+    {
+        return $this->imageName;
+    }
+
+
     public function getReference(): ?string
     {
         return $this->reference;
@@ -174,6 +207,18 @@ class Produit
 
         return $this;
     }
+
+    // public function getUpdatedAt(): ?\DateTimeImmutable
+    // {
+    //     return $this->updatedAt;
+    // }
+
+    // #[ORM\PreUpdate] // Indique que cette méthode doit être appelée automatiquement avant chaque mise à jour de l'entité en base de données.
+    // public function setUpdatedAt()
+    // {
+    //     $this->updatedAt = new \DateTimeImmutable(); // Attribue la date et l'heure actuelles (non modifiables) à la propriété updatedAt, chaque fois qu'une mise à jour est effectuée.
+    // }
+
 
     /**
      * @return Collection<int, DetailCommande>
@@ -226,7 +271,7 @@ class Produit
     public function removeDetailProduit(DetailProduit $detailProduit): static
     {
         if ($this->detailProduits->removeElement($detailProduit)) {
-            // set the owning side to null (unless already changed)
+        
             if ($detailProduit->getProduit() === $this) {
                 $detailProduit->setProduit(null);
             }

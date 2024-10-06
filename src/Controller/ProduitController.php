@@ -38,7 +38,6 @@ class ProduitController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             // Persist le produit 
-           
             $manager->persist($produit);
             // Enregistre les données dans la base de données
             $manager->flush();
