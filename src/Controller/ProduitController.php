@@ -15,7 +15,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class ProduitController extends AbstractController
 {
-    #[Route('/produit', name: 'app_produit')]
+    #[Route('/produits', name: 'app_produit')]
     public function index(ProduitRepository $repository, Request $request, PaginatorInterface $paginator): Response
     {
         $produits = $paginator->paginate( 
@@ -124,5 +124,16 @@ class ProduitController extends AbstractController
     }
 
 
+    //methode pour récuperer la liste des produits ayant une remise 
+    #[Route('/produits/soldes', name: 'produits_soldes')]
+    public function produitsSoldes(ProduitRepository $produitRepository): Response
+    {
+        // Récupérer les produits en solde via la méthode du repository
+        $produitsEnSolde = $produitRepository->findProduitsEnSolde();
+
+        return $this->render('produit/soldes.html.twig', [
+            'produits' => $produitsEnSolde,
+        ]);
+    }
 
 }
