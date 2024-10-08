@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Détails du Produit{% endblock %}
+
+{% block body %}
+    <div class="containerDetail mt-4">
+        <h1>{{ produit.nom }}</h1>
+        
+        <div class="card_detail-produit">
+            <img src="{{ produit.image }}" class="card-img-top" alt="Image de {{ produit.nom }}">
+            <div class="card-detail">
+                {% if produit.reduction %}
+                    <p class="card-text">
+                        <span style="text-decoration: line-through;">{{ produit.prix }} €</span><br>
+                        <span style="font-weight: bold; ">{{ produit.prix - (produit.prix * produit.reduction / 100) }} €</span>
+                        <span class="badge bg-success">{{ produit.reduction }}% de réduction</span>
+                    </p>
+            
+                {% endif %}
+                    
+            </div>
+            <p><strong>Référence:</strong> {{ produit.reference }}</p>
+                <br><p class="card-text">Description : {{ produit.description }}</p>
+                {# <p><strong>Réduction:</strong> {{ produit.reduction }}%</p> #}
+                <div class="add-to-cart">
+                    <a href="#" class="btn btn-primary">Ajouter au panier</a>
+                    <a href="#" class="btn btn-secondary">Ajouter aux favoris</a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

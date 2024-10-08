@@ -136,4 +136,22 @@ class ProduitController extends AbstractController
         ]);
     }
 
+    //methode pour acceder au detail du produit 
+    #[Route('/produit/detail/{id}', name: 'produit_detail')]
+    public function detail(int $id, EntityManagerInterface $manager)
+    {
+        //récupérer le produit grace à son id 
+        $produit = $manager->getRepository(Produit::class)->find($id);
+
+        //je veriifie si le produit existe
+        if(!$produit){
+            throw new NotFoundHttpException('Produit non trouvé');
+        }
+
+        //sinon je renvoie vers la vue du detail produit 
+        return $this->render('produit/detail.html.twig', [
+            'produit' => $produit,
+        ]);
+    }
+
 }

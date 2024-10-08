@@ -49,3 +49,14 @@ footer{
     display: flex;
     flex-direction: column;
 }
+
+/* .card_detail-produit {
+    display: flex;
+    flex-direction: row;
+    align-content: stretch;
+    justify-content: space-between;
+    align-items: center;
+}
+.containerDetail{
+    background-color: #1d1d1d;
+} */

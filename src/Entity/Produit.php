@@ -49,6 +49,22 @@ class Produit
     #[ORM\Column(nullable: true)]
     private ?int $reduction = null;
 
+    // #[ORM\Column(type: Types::DATETIME_IMMUTABLE)]
+    // private ?\DateTimeImmutable $dateCreation = null;
+  
+    // public function getDateCreation()
+    // {
+    //     return $this->dateCreation;
+    // }
+
+    // #[ORM\PrePersist]
+    // public function setDateCreation(): void
+    // {
+    //     if ($this->dateCreation === null) {
+    //         $this->dateCreation = new \DateTimeImmutable();
+    //     }
+    // }
+    
     // #[ORM\Column(type: 'datetime_immutable', nullable: true)]
     // private ?\DateTimeImmutable $updatedAt = null;
 
@@ -369,4 +385,6 @@ class Produit
 
         return $this;
     }
+
+  
 }
