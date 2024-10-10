@@ -12,12 +12,9 @@ use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use \DateTimeImmutable;
 
-
-
 #[ORM\HasLifecycleCallbacks]
 #[ORM\Entity(repositoryClass: ProduitRepository::class)]
 #[Vich\Uploadable]
-
 class Produit
 {
     #[ORM\Id]
@@ -49,25 +46,20 @@ class Produit
     #[ORM\Column(nullable: true)]
     private ?int $reduction = null;
 
-    // #[ORM\Column(type: Types::DATETIME_IMMUTABLE)]
-    // private ?\DateTimeImmutable $dateCreation = null;
-  
-    // public function getDateCreation()
-    // {
-    //     return $this->dateCreation;
-    // }
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE)]
+    private ?\DateTimeImmutable $dateCreation = null;
 
-    // #[ORM\PrePersist]
-    // public function setDateCreation(): void
-    // {
-    //     if ($this->dateCreation === null) {
-    //         $this->dateCreation = new \DateTimeImmutable();
-    //     }
-    // }
-    
-    // #[ORM\Column(type: 'datetime_immutable', nullable: true)]
-    // private ?\DateTimeImmutable $updatedAt = null;
+    #[ORM\ManyToOne(targetEntity: Categorie::class, inversedBy: 'produits')]
+    #[ORM\JoinColumn(nullable: false)] // This means every produit must have a category
+    private ?Categorie $categorie = null;
 
+    #[ORM\PrePersist]
+    public function setDateCreation(): void
+    {
+        if ($this->dateCreation === null) {
+            $this->dateCreation = new \DateTimeImmutable();
+        }
+    }
 
     #[ORM\PrePersist]
     public function genereReference(): void
@@ -76,9 +68,6 @@ class Produit
             $this->reference = sprintf('%06d', random_int(0, 999999)); // Générer un code à 6 chiffres
         }
     }
-
-
-
 
     /**
      * @var Collection<int, DetailCommande>
@@ -110,9 +99,6 @@ class Produit
     #[ORM\OneToMany(targetEntity: Commentaire::class, mappedBy: 'produit')]
     private Collection $commentaires;
 
-    #[ORM\ManyToOne(inversedBy: 'produits')]
-    private ?Categorie $categorie = null;
-
     public function __construct()
     {
         $this->detailCommandes = new ArrayCollection();
@@ -135,7 +121,6 @@ class Produit
     public function setPrix(int $prix): static
     {
         $this->prix = $prix;
-
         return $this;
     }
 
@@ -147,26 +132,23 @@ class Produit
     public function setNom(string $nom): static
     {
         $this->nom = $nom;
-
         return $this;
     }
-
-    
-
-    // public function setImageFile(?File $imageFile = null): void
-    // {
-    //     $this->imageFile = $imageFile;
-
-    //     if (null !== $imageFile) {
-        
-    //         $this->updatedAt = new \DateTimeImmutable();
-    //     }
-    // }
 
     public function getImageFile(): ?File
     {
         return $this->imageFile;
     }
+    public function setImageFile(?File $imageFile = null): void
+    {
+        $this->imageFile = $imageFile;
+
+        if ($imageFile) {
+            // Déclenche la mise à jour de la dateCreation
+            $this->dateCreation = new \DateTimeImmutable();
+        }
+    }
+
 
     public function setImageName(?string $imageName): void
     {
@@ -178,7 +160,6 @@ class Produit
         return $this->imageName;
     }
 
-
     public function getReference(): ?string
     {
         return $this->reference;
@@ -187,7 +168,6 @@ class Produit
     public function setReference(string $reference): static
     {
         $this->reference = $reference;
-
         return $this;
     }
 
@@ -199,7 +179,6 @@ class Produit
     public function setDescription(?string $description): static
     {
         $this->description = $description;
-
         return $this;
     }
 
@@ -211,7 +190,6 @@ class Produit
     public function setImage(string $image): static
     {
         $this->image = $image;
-
         return $this;
     }
 
@@ -223,21 +201,8 @@ class Produit
     public function setReduction(?int $reduction): static
     {
         $this->reduction = $reduction;
-
         return $this;
     }
-
-    // public function getUpdatedAt(): ?\DateTimeImmutable
-    // {
-    //     return $this->updatedAt;
-    // }
-
-    // #[ORM\PreUpdate] // Indique que cette méthode doit être appelée automatiquement avant chaque mise à jour de l'entité en base de données.
-    // public function setUpdatedAt()
-    // {
-    //     $this->updatedAt = new \DateTimeImmutable(); // Attribue la date et l'heure actuelles (non modifiables) à la propriété updatedAt, chaque fois qu'une mise à jour est effectuée.
-    // }
-
 
     /**
      * @return Collection<int, DetailCommande>
@@ -290,7 +255,6 @@ class Produit
     public function removeDetailProduit(DetailProduit $detailProduit): static
     {
         if ($this->detailProduits->removeElement($detailProduit)) {
-        
             if ($detailProduit->getProduit() === $this) {
                 $detailProduit->setProduit(null);
             }
@@ -320,7 +284,6 @@ class Produit
     public function removeFavori(Favoris $favori): static
     {
         if ($this->favoris->removeElement($favori)) {
-            // set the owning side to null (unless already changed)
             if ($favori->getProduit() === $this) {
                 $favori->setProduit(null);
             }
@@ -350,7 +313,6 @@ class Produit
     public function removeMatiereProduit(MatiereProduit $matiereProduit): static
     {
         if ($this->matiereProduits->removeElement($matiereProduit)) {
-            // set the owning side to null (unless already changed)
             if ($matiereProduit->getProduit() === $this) {
                 $matiereProduit->setProduit(null);
             }
@@ -380,7 +342,7 @@ class Produit
     public function removeCommentaire(Commentaire $commentaire): static
     {
         if ($this->commentaires->removeElement($commentaire)) {
-            // set the owning side to null (unless already changed)
+ 
             if ($commentaire->getProduit() === $this) {
                 $commentaire->setProduit(null);
             }
@@ -389,17 +351,23 @@ class Produit
         return $this;
     }
 
-    public function getCategorie(): ?Categorie
+    /**
+     * Get the value of categorie
+     */ 
+    public function getCategorie()
     {
         return $this->categorie;
     }
 
-    public function setCategorie(?Categorie $categorie): static
+    /**
+     * Set the value of categorie
+     *
+     * @return  self
+     */ 
+    public function setCategorie($categorie)
     {
         $this->categorie = $categorie;
 
         return $this;
     }
-
-  
 }

@@ -25,4 +25,17 @@ class ProduitRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+
+
+    public function findProduitsParCategorie($categoryId)
+    {
+
+        //requete DQL pour récuperer les produits par leur categorie 
+        return $this->createQueryBuilder('p')
+        ->join('p.categorie', 'c')
+        ->where('c.id = :categoryId')
+        ->setParameter('categoryId', $categoryId)
+        ->getQuery()
+        ->getResult();
+    }
 }

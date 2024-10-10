@@ -46,10 +46,9 @@
                                 Catégories
                             </a>
                             <ul class="dropdown-menu dropdown-menu-dark">
-                                <li><a class="dropdown-item" href="#">Homme</a></li>
-                                <li><a class="dropdown-item" href="#">Femme</a></li>
-                                <li><a class="dropdown-item" href="#">Soins cheveux</a></li>
-                                <li><a class="dropdown-item" href="#">Soins visage</a></li>
+                                <li><a class="dropdown-item" href="{{ path('produits_par_categorie', { id: 1 }) }}">Parfum</a></li>
+                                <li><a class="dropdown-item" href="{{ path('produits_par_categorie', { id: 2 }) }}">Soins cheveux</a></li>
+                                <li><a class="dropdown-item" href="{{ path('produits_par_categorie', { id: 3 }) }}">Soins visage</a></li>
                             </ul>
                         </li>
                     </ul>

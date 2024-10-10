@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Categorie;
 use App\Entity\Produit;
 use App\Form\ProduitType;
 use App\Repository\ProduitRepository;
@@ -151,6 +152,20 @@ class ProduitController extends AbstractController
         //sinon je renvoie vers la vue du detail produit 
         return $this->render('produit/detail.html.twig', [
             'produit' => $produit,
+        ]);
+    }
+
+
+    //methode pour avoir liste des produits par categorie
+    #[Route('/produits/categorie/{id}', name: 'produits_par_categorie')]
+    public function produitsParCategorie($id, ProduitRepository $repository): Response
+    {
+        $categorie = new Categorie ;
+        $produits = $repository->findProduitsParCategorie($id);
+    
+        return $this->render('produit/index.html.twig', [
+            'produits' => $produits,
+            'categorie' =>$categorie,
         ]);
     }
 
