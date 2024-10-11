@@ -2,10 +2,11 @@
 
 namespace App\Controller;
 
-use App\Entity\Categorie;
 use App\Entity\Produit;
+use App\Entity\Categorie;
 use App\Form\ProduitType;
 use App\Repository\ProduitRepository;
+use App\Repository\CategorieRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -158,14 +159,39 @@ class ProduitController extends AbstractController
 
     //methode pour avoir liste des produits par categorie
     #[Route('/produits/categorie/{id}', name: 'produits_par_categorie')]
-    public function produitsParCategorie($id, ProduitRepository $repository): Response
+    public function produitsParCategorie($id, ProduitRepository $repository,CategorieRepository $categorieRepository, Request $request, PaginatorInterface $paginator): Response
     {
-        $categorie = new Categorie ;
-        $produits = $repository->findProduitsParCategorie($id);
+        // pour rcupérer les produits par catégorie
+        $produitsQuery = $repository->findProduitsParCategorie($id); // On suppose que cette méthode renvoie un QueryBuilder ou une requête DQL
     
-        return $this->render('produit/index.html.twig', [
+        // Pagination des produits
+        $produits = $paginator->paginate(
+            $produitsQuery,
+            $request->query->getInt('page', 1), // numéro de page
+            9 // limit par page
+        );
+    
+        // Récupérer la catégorie 
+        $categorie = $categorieRepository->find($id);
+    
+        return $this->render('produit/parCategorie.html.twig', [
             'produits' => $produits,
-            'categorie' =>$categorie,
+            'categorie' => $categorie,
+        ]);
+    }
+
+    #[Route('/produits/nouveaux', name: 'produits_nouveaux')]
+    public function nouveauxProduits(ProduitRepository $repository, Request $request, PaginatorInterface $paginator): Response
+    {
+        $produitsQuery = $repository->findProduitsNouveaux(); // Récupérer les produits nouveaux(depuis repository)
+        $produits = $paginator->paginate(
+            $produitsQuery,
+            $request->query->getInt('page', 1), // numéro de page
+            3 // limit par page
+        );
+
+        return $this->render('produit/nouveaute.html.twig', [
+            'produits' => $produits,
         ]);
     }
 

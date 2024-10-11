@@ -4,6 +4,30 @@
 
 {% block body %}
 
+
+
+<div class="categories">
+    <a href="{{ path('produits_par_categorie', { id: 1 }) }}" class="category-item">
+        <img src="{{ asset('img/accueil.jpg') }}" alt="Parfum">
+        <span>Parfum</span>
+    </a>
+    <a href="{{ path('produits_par_categorie', { id: 2 }) }}" class="category-item">
+        <img src="{{ asset('img/accueil.jpg') }}" alt="Soins cheveux">
+        <span>Soins cheveux</span>
+    </a>
+    <a href="{{ path('produits_par_categorie', { id: 3 }) }}" class="category-item">
+        <img src="{{ asset('img/accueil.jpg') }}" alt="Soins visage">
+        <span>Soins visage</span>
+    </a>
+    <a href="{{ path('produits_par_categorie', { id: 4 }) }}" class="category-item">
+        <img src="{{ asset('img/accueil.jpg') }}" alt="solaire">
+        <span>Soins visage</span>
+    </a>
+    <a href="{{ path('produits_par_categorie', { id: 5 }) }}" class="category-item">
+        <img src="{{ asset('img/accueil.jpg') }}" alt="Maquillage">
+        <span>Maquillage></span>
+    </a>
+</div>
 <h1>Liste produits </h1>
 
 <div class="container mt-4">

@@ -1,3 +1,39 @@
+/* #container {
+    background-color: yellow ; /* Utilisez !important avec précaution */
+/* } */ */
+
+
+#container{
+    display: flex;
+}
+
+
+/*///////////////////////////////////////////////////////////////////////////////////////////////////
+/ 
+                               Styles de base pour la navbar
+
+////////////////////////////////////////////////////////////////////////////////////*/
+
+.navbar {
+    background-color: #343a40; /* Couleur de fond sombre */
+    padding: 0.5rem 1rem; /* Espacement */
+}
+
+/* Logo de la navbar */
+.navbar-brand img {
+    width: 70px; /* Largeur du logo */
+    height: auto; /* Hauteur automatique pour conserver le ratio */
+}
+
+/* Styles pour les liens de la navbar */
+.nav-link {
+    color: #ffffff; /* Couleur du texte blanche */
+    margin: 0 15px;         /* Espacement entre les liens */
+    transition: color 0.3s; /* Transition douce pour les effets de survol */
+}
+
+
+
 .card-body {
     display: flex;
     flex-direction: row;
@@ -7,26 +43,43 @@
 }
 
 h1{
-    display: flex;
-    flex-direction: row;
-    align-content: center;
-    align-items: center;
+
     margin-left: 10%;
     margin-top: 25px;
     margin-bottom: 25px;
 }
 
 footer{
+    padding: 20px;
+    position: fixed;
+    left: 0;
+    bottom: 0;
     width: 100%;
-    height: 300px;
-    background-color: #1d1d1d;
+    background-color: #1d1d1d; 
+    color: white;
+    text-align: center;
+    width: 100%;
+    /* height: 300px; */
+    
+    
+}
+
+footer .container {
     display: flex;
     flex-direction: row;
-    align-content: center;
-    justify-content: space-between;
+    justify-content: space-evenly;
     align-items: center;
-    color: white;
 }
+
+
+/* Évite les débordements */
+html, body {
+    margin: 0;
+    padding: 0; 
+    width: 100%; 
+    overflow-x: hidden; /* Évite le débordement horizontal */
+}
+
 
 .socials li{
     list-style: none;
@@ -45,7 +98,7 @@ footer{
 
 .conditions{
     text-decoration: none;
-    margin: 50px;
+    /* margin: 50px; */
     display: flex;
     flex-direction: column;
 }
@@ -60,3 +113,167 @@ footer{
 .containerDetail{
     background-color: #1d1d1d;
 } */
+
+/*///////////////////////////////////////////////////////////////////////////////////////////////////
+/ 
+                                CSS DE LA NEWSLETTER 
+
+////////////////////////////////////////////////////////////////////////////////////*/
+.newsletter {
+    margin-top: 20px;
+    display: flex;
+    background-color: #D9D9D9;
+    padding: 40px 100px;
+    border-radius: 15px;
+
+}
+
+.newsletter form {
+    display: flex;
+}
+
+
+
+
+
+/*///////////////////////////////////////////////////////////////////////////////////////////////////
+/ 
+                              CSS  detail produit 
+
+////////////////////////////////////////////////////////////////////////////////////*/
+
+
+.card_detail-produit {
+    display: flex;
+    width: 100%;
+    max-width: 800px;
+    /* border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); */
+    overflow: hidden;/* Empêche le débordement */
+    margin: 20px;
+}
+
+.imgDetailProduit {
+    flex: 1;
+    padding: 10px;
+}
+
+.imgDetailProduit img {
+    width: 350px;
+    height: 350px; 
+    object-fit: cover; /* Recadre l'image pour remplir le conteneur sans déformation */
+}
+.card-detail {
+    flex: 2;
+    padding: 20px;
+}
+
+.prix-reduit {
+    font-weight: bold;
+    color: #d9534f;
+}
+
+.add-to-cart {
+    margin-top: 20px;
+}
+
+.description {
+    width: 100%;
+    height: auto;
+    padding: 10px 20px; 
+    margin: 20px;  
+    border-radius: 15px;
+    color: #1d1d1d; /* Couleur du texte noire */
+    background-color: rgba(217, 217, 217, 0.3); /* Couleur de fond clair avec opacité */
+}
+
+.commentaires-detailProduit{
+    margin: 10px;
+    padding: 10px ;
+    width: 100%;
+    /* border: 1px solid #ccc; */
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); 
+}
+.commentaire{
+    margin: 10px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.add-to-cart {
+    display: flex; /* Utilisation de flexbox pour aligner les boutons */
+    gap: 10px; /* Espacement entre les boutons */
+}
+
+.btnDetailProduit-panier {
+    background-color: #D4AF37;
+    color: #1d1d1d;
+    border-radius: 5px;
+    padding: 10px 15px; 
+    text-decoration: none; /* Suppression du soulignement */
+    font-weight: bold; /* Texte en gras */
+    
+}
+
+.btnDetailProduit-favoris {
+    background-color: transparent; /* Fond transparent pour les favoris */
+    border: 2px solid #D4AF37; 
+    border-radius: 5px; 
+    padding: 10px 15px; 
+    color: #D4AF37; 
+    text-decoration: none; /* Suppression du soulignement */
+    font-weight: bold;
+    display: flex; /* Afficher en flex pour centrer le contenu */
+    align-items: center; /* Centrage vertical */
+}
+
+.btnDetailProduit-favoris img {
+    width: 20px; 
+    height: auto; /* Conserver l'aspect ratio */
+    margin-right: 5px; /* Espacement entre l'image coeur et le texte */
+}
+
+
+/*///////////////////////////////////////////////////////////////////////////////////////////////////
+/ 
+                              CSS  categories en haut de page
+
+////////////////////////////////////////////////////////////////////////////////////*/
+
+
+.categories {
+    display: flex;
+    justify-content: center;
+    gap: 100px;
+    padding: 20px;
+}
+
+.category-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-decoration: none;
+    color: #000; /* Couleur du texte */
+}
+
+.category-item img {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%; /* Rendre les images rondes comme maquette */
+    object-fit: cover; /* Maintenir le ratio de l'image */
+    transition: transform 0.3s ease; /* Animation au survol */
+}
+
+.category-item img:hover {
+    transform: scale(1.1); /* Agrandit légèrement l'image au survol */
+}
+
+.category-item span {
+    margin-top: 10px;
+    font-size: 14px;
+    text-align: center;
+    font-weight: bold;
+}

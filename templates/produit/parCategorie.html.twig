@@ -3,39 +3,47 @@
 {% block title %}Produits par Catégorie{% endblock %}
 
 {% block body %}
-<h1>Produits de la catégorie {{categorie.nom}} </h1>
+<h1>{{ categorie.nom }}</h1>
 
 {% if produits is empty %}
-    <p>Aucun produit disponible pour cette categorie.</p>
+    <p>Aucun produit disponible pour cette catégorie.</p>
 {% else %}
-    <ul>
+    <div class="row">
         {% for produit in produits %}
-        <div class="card h-100">
-                    
-            <img src="{{ produit.image }}" class="card-img-top" alt="Image de {{ produit.nom }}">
-            
-            <div class="card-body">
-
-                <div class="nomProduit">
-                    <h5 class="card-title"><a href="{{ path('produit_detail', {'id': produit.id}) }}">{{ produit.nom }}</a></h5>
-                    {% if produit.reduction %}
-                    <p class="card-text">
-                        <span style="text-decoration: line-through;">{{ produit.prix }} €</span><br>
-                        <span style="font-weight: bold; ">{{ produit.prix - (produit.prix * produit.reduction / 100) }} €</span>
-                        <span class="badge bg-success">{{ produit.reduction }}% de réduction</span>
-                    </p>
-            
-                {% endif %}
-                    <p class="card-text">{{ produit.prix }} €</p>
+            <div class="col-md-4">
+                <div class="card h-100">
+                    <img src="{{ produit.image }}" class="card-img-top" alt="Image de {{ produit.nom }}">
+                    <div class="card-body">
+                        <div class="nomProduit">
+                            <h5 class="card-title">
+                                <a href="{{ path('produit_detail', {'id': produit.id}) }}">{{ produit.nom }}</a>
+                            </h5>
+                            {% if produit.reduction %}
+                                <p class="card-text">
+                                    <span style="text-decoration: line-through;">{{ produit.prix }} €</span><br>
+                                    <span style="font-weight: bold;">{{ produit.prix - (produit.prix * produit.reduction / 100) }} €</span>
+                                    <span class="badge bg-success">{{ produit.reduction }}% de réduction</span>
+                                </p>
+                            {% else %}
+                                <p class="card-text">{{ produit.prix }} €</p>
+                            {% endif %}
+                        </div>
+                        <div class="add">
+                            <a style="text-decoration:none;" href="#">
+                                <img src="{{ asset('img/panierAdd.png') }}" alt="Ajouter au panier">
+                            </a>&nbsp;
+                            <a style="text-decoration:none;" href="#">
+                                <img src="{{ asset('img/coeurAdd.png') }}" alt="Ajouter aux favoris">
+                            </a>
+                        </div>
+                    </div>
                 </div>
-
-                <div class="add">
-                    <a style="text-decoration:none;" href="#"> <img src=" {{ asset('img/panierAdd.png') }} " alt="PanierAdd"> </a>&nbsp;
-                    <a style="text-decoration:none;" href="#"> <img src="{{ asset('img/coeurAdd.png') }}" alt="favoris"> </a>&nbsp;
-                 </div> 
-                
             </div>
         {% endfor %}
-    </ul>
+    </div>
+    
+    <div class="pagination">
+        {{ knp_pagination_render(produits) }}
+    </div>
 {% endif %}
 {% endblock %}

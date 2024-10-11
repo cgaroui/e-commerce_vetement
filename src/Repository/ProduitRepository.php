@@ -38,4 +38,14 @@ class ProduitRepository extends ServiceEntityRepository
         ->getQuery()
         ->getResult();
     }
+
+    public function findProduitsNouveaux($limit = 12)
+    {
+        return $this->createQueryBuilder('p')
+            ->orderBy('p.dateCreation', 'DESC') //du plus récent au moins récent
+            ->setMaxResults($limit) // pour choisir le nombre de produit limit à afficher 
+            ->getQuery()
+            ->getResult();
+    }
+
 }
