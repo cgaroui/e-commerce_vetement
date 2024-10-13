@@ -277,3 +277,26 @@ html, body {
     text-align: center;
     font-weight: bold;
 }
+
+
+.img-accueil{
+    width: 100%;
+    height: 300px;
+}
+
+/*///////////////////////////////////////////////////////////////////////////////////////////////////
+/ 
+                              CSS  page d'acceuil image 
+
+////////////////////////////////////////////////////////////////////////////////////*/
+
+/* .hero-image {
+    position: relative;
+    width: 100%;
+    height: 500px;
+    background-image: url('{{ asset('img/grandeAccueil.jpg') }}');
+    background-size: cover; 
+    background-position: center;
+    background-repeat: no-repeat;
+}
+ */
