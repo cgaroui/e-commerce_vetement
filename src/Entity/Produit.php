@@ -64,8 +64,9 @@ class Produit
     #[ORM\PrePersist]
     public function genereReference(): void
     {
+        // Générer un code à 6 chiffres
         if ($this->reference === null) {
-            $this->reference = sprintf('%06d', random_int(0, 999999)); // Générer un code à 6 chiffres
+            $this->reference = sprintf('%06d', random_int(0, 999999)); 
         }
     }
 
@@ -371,3 +372,4 @@ class Produit
         return $this;
     }
 }
+

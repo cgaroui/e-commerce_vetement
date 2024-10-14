@@ -40,9 +40,20 @@ class Commande
     #[ORM\ManyToOne(inversedBy: 'commandes')]
     private ?Livraison $livraison = null;
 
+    #[ORM\Column(length: 255)]
+    private ?string $refCommande = null;
+
     public function __construct()
     {
         $this->detailCommandes = new ArrayCollection();
+    }
+
+    #[ORM\PrePersist]
+    public function genereReference(): void
+    {
+        if ($this->refCommande === null) {
+            $this->refCommande = sprintf('%06d', random_int(0, 999999)); // Générer un code à 6 chiffres
+        }
     }
 
     public function getId(): ?int
@@ -106,15 +117,20 @@ class Commande
         return $this->detailCommandes;
     }
 
-    public function addDetailCommande(DetailCommande $detailCommande): static
-    {
-        if (!$this->detailCommandes->contains($detailCommande)) {
-            $this->detailCommandes->add($detailCommande);
-            $detailCommande->setCommande($this);
-        }
+    //dans cette fonction si le produit existe deja dans le panier alors on augmente la quantité au lieux de l'ajouter plusieurs fois  
+    // public function addDetailCommande(DetailCommande $article): static
+    // {
+    //     if (!$this->detailCommandes->contains($article)) {
+    //         $this->detailCommandes->add($article);
+    //         $article->setCommande($this);
+    //     }else
+    //     {
+    //         $this->article->getQuantite()+ $article->getQuantite();
+    //         return $this;
+    //     }
 
-        return $this;
-    }
+    //     return $this;
+    // }
 
     public function removeDetailCommande(DetailCommande $detailCommande): static
     {
@@ -148,6 +164,18 @@ class Commande
     public function setLivraison(?Livraison $livraison): static
     {
         $this->livraison = $livraison;
+
+        return $this;
+    }
+
+    public function getRefCommande(): ?string
+    {
+        return $this->refCommande;
+    }
+
+    public function setRefCommande(string $refCommande): static
+    {
+        $this->refCommande = $refCommande;
 
         return $this;
     }

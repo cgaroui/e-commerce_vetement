@@ -50,8 +50,14 @@
                     {{ form_errors(form.reduction) }}
                 </div>
 
+                <div>
+                    {{ form_label(form.categorie) }} 
+                    {{ form_widget(form.categorie) }}  
+                    {{ form_errors(form.categorie) }}
+                </div>
+                
                 <button type="submit" class="btn btn-primary">Ajouter</button>
-
+                
                 {{ form_end(form) }}
             </div>
         </div>

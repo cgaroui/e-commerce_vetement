@@ -2,6 +2,7 @@
 
 namespace App\Form;
 
+use App\Entity\Categorie;
 use App\Entity\Produit;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -10,6 +11,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\MoneyType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 
 class ProduitType extends AbstractType
@@ -81,15 +83,36 @@ class ProduitType extends AbstractType
                         'value' => 100,
                         'message' => 'La réduction ne peut pas dépasser 100%.'
                     ])
-                ]
-            ]);
-    }
-
-
-    public function configureOptions(OptionsResolver $resolver): void
-    {
-        $resolver->setDefaults([
-            'data_class' => Produit::class,
-        ]);  
-    }
-}
+                    ],
+                    'data_class' => null,
+            ])
+                
+                    
+                    // Nouveau champ de catégories sous forme de cases à cocher
+                    ->add('categorie', ChoiceType::class, [
+                        'label' => 'Catégories du produit',
+                        'choices' => [
+                            'parfum' => '1',
+                            'Soins cheveux' => '2',
+                            'soins visage' => '3',
+                            'solaire' => '4',
+                            'maquillage' => '5',
+                        ],
+                        'multiple' => true, // Permet de sélectionner plusieurs catégories
+                        'expanded' => true, // Affiche les options sous forme de cases à cocher
+                        'constraints' => [
+                            new Assert\Count([
+                                'min' => 1,
+                                'minMessage' => 'Vous devez sélectionner au moins une catégorie.',
+                            ])
+                        ]
+                            ]);
+            }
+        
+            public function configureOptions(OptionsResolver $resolver): void
+            {
+                $resolver->setDefaults([
+                    'data_class' => Produit::class,
+                ]);  
+            }
+        }
