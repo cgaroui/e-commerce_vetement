@@ -47,7 +47,7 @@
                 <p><strong>Référence:</strong> {{ produit.reference }}</p>
                 
                 <div class="add-to-cart">
-                    <a href="#" class="btnDetailProduit-panier">Ajouter au panier</a>
+                    <a href="{{path('ajout_panier', {id : produit.id})}}" class="btnDetailProduit-panier">Ajouter au panier</a>
                     <a href="#" class="btnDetailProduit-favoris">
                         <img src="{{asset('img/coeurVide.png')}}" alt="Favoris"> Ajouter favoris
                     </a>
