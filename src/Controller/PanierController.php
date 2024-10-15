@@ -33,12 +33,13 @@ class PanierController extends AbstractController
             $total+= $produit->getPrix() * $quantite;
             
         }
-            // dd($totalCommande);
+        
         return $this->render('panier/index.html.twig',
          [
             'produit' => $produit,
             'quantite' => $quantite,
-            'data' => $data
+            'data' => $data,
+            'total' => $total
         ]);
     }
 
@@ -62,7 +63,32 @@ class PanierController extends AbstractController
       //on redirige vers lepanier 
       return $this->redirectToRoute('app_panier');
 
-    
-     
+    }
+
+    #[Route('/panier/retirerProduit/{id}', name: 'retirer_du_panier')]
+    public function retirerDuPanier(Produit $produit,SessionInterface $session )
+    {
+        //on recupere l'id du produit 
+        $id = $produit->getId();
+
+        //on recupere le panier existant , s'il existe pas dans ma session je met le tableau vide d'ou les []
+        $panier = $session->get('panier', []);
+
+        //on retire le produit du panier s'il n'y a qu'un seul  
+        //sinon on décremente la quantitée
+        //on verifie d'abord si le panier n'est pas vide 
+        if(!empty($panier[$id])){
+            if ($panier[$id] > 1) {
+
+                  $panier[$id]--;//si le produit est present + d'une fois on decremente 
+            }else{
+                unset($panier[$id]);// sinon on l'enleve (unset pour defaire la variable)
+            }
+            
+        }
+        $session->set('panier', $panier);
+      //on redirige vers le panier 
+      return $this->redirectToRoute('app_panier');
+
     }
 }
