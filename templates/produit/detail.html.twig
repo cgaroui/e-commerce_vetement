@@ -65,13 +65,26 @@
     </div>
 
     <div class="commentaires-detailProduit">
-    <p>Commentaires :</p> 
-        <div class="commentaire">
-            {# <p class="card-text">commentaire : {{ produit.commentaire.texte }}</p> #}
-            <p class="card-text">commentaire : Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quae perferendis ad unde ipsam, suscipit exercitationem.</p>
-            <p class="card-text">Note : </p>
-        </div>
+        <h5>Commentaires</h5>
 
+        {% if commentaires is empty %}
+            <p>Aucun commentaire pour ce produit.</p>
+        {% else %}
+            <ul>
+                {% for commentaire in commentaires %}
+                    <li>
+                        <strong>{{ commentaire.user.nom }} :</strong>
+                        {{ commentaire.texte }} <br>
+                        <em>Note : {{ commentaire.noteProduit }}/5</em> <br>
+                        <em>date : {{ commentaire.date | date("d/m/Y H:i") }}</em> <br>
+                        {% if commentaire.photoProduit %}
+                            <img src="{{ asset('uploads/' ~ commentaire.photoProduit) }}" alt="Image du commentaire" style="max-width: 200px;">
+                        {% endif %}
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+            <a  class="btn btn-dark" href="{{path('ajout_commentaire',{id: produit.id})}}">Ajouter un commentaire </a>
     </div>
 </div>
 {% endblock %}

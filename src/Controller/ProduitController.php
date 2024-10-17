@@ -149,11 +149,14 @@ class ProduitController extends AbstractController
         if(!$produit){
             throw new NotFoundHttpException('Produit non trouvé');
         }
+        // Récupérer les commentaires associés à ce produit
+        $commentaires = $produit->getCommentaires(); 
 
-        //sinon je renvoie vers la vue du detail produit 
         return $this->render('produit/detail.html.twig', [
             'produit' => $produit,
+            'commentaires' => $commentaires,
         ]);
+      
     }
 
 
