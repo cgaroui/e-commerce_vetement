@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mes Favoris{% endblock %}
+
+{% block body %}
+<h1>Mes Favoris</h1>
+
+{% if favoris is empty %}
+    <p>Vous n'avez pas encore de favoris.</p>
+{% else %}
+    <div class="row">
+        {% for favori in favoris %}
+            <div class="col-md-4 mb-4  ">
+                <div class="card h-100 cardFavoris">
+                    <img src="{{ favori.produit.image }}" class="card-img-top" alt="Image de {{ favori.produit.nom }}">
+
+                    <div class="card-body ">
+                        <h5 class="card-title">
+                            <a href="{{ path('produit_detail', {'id': favori.produit.id}) }}">
+                                {{ favori.produit.nom }}
+                            </a>
+                        </h5>
+                        
+                        <p class="card-text">
+                            {% if favori.produit.reduction %}
+                                <span style="text-decoration: line-through;">{{ favori.produit.prix }} €</span><br>
+                                <span style="font-weight: bold;">
+                                    {{ favori.produit.prix - (favori.produit.prix * favori.produit.reduction / 100) }} €
+                                </span>
+                                <span class="badge bg-success">{{ favori.produit.reduction }}% de réduction</span>
+                            {% else %}
+                                <span>{{ favori.produit.prix }} €</span>
+                            {% endif %}
+                        </p>
+
+                        <div class="add">
+                            <a style="text-decoration:none;" href="{{ path('ajout_panier', {'id': favori.produit.id}) }}">
+                                <img src="{{ asset('img/panierAdd.png') }}" alt="Ajouter au panier">
+                            </a>&nbsp;
+                           
+                            <a style="text-decoration:none;" href="{{ path('supprimer_favoris', {'id': favori.id}) }}">
+                                <img src="{{ asset('img/coeurRempli.png') }}" alt="Retirer des favoris">
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endif %}
+
+{% endblock %}

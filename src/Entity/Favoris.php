@@ -14,7 +14,7 @@ class Favoris
     private ?int $id = null;
 
     #[ORM\ManyToOne(inversedBy: 'favoris')]
-    private ?Client $client = null;
+    private ?User $user = null;
 
     #[ORM\ManyToOne(inversedBy: 'favoris')]
     private ?Produit $produit = null;
@@ -24,15 +24,14 @@ class Favoris
         return $this->id;
     }
 
-    public function getClient(): ?Client
+    public function getUser(): ?User
     {
-        return $this->client;
+        return $this->user;
     }
 
-    public function setClient(?Client $client): static
+    public function setUser(?User $user): static
     {
-        $this->client = $client;
-
+        $this->user = $user;
         return $this;
     }
 
@@ -44,7 +43,6 @@ class Favoris
     public function setProduit(?Produit $produit): static
     {
         $this->produit = $produit;
-
         return $this;
     }
 }

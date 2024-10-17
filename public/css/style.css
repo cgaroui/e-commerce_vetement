@@ -1,10 +1,7 @@
-/* #container {
-    background-color: yellow ; /* Utilisez !important avec précaution */
-/* } */ */
-
 
 #container{
     display: flex;
+    flex-direction: column;
 }
 
 
@@ -303,4 +300,33 @@ html, body {
 
 .tendances-accueil{
     display: flex;
+}
+
+
+
+/*///////////////////////////////////////////////////////////////////////////////////////////////////
+/ 
+                              CSS  mon profile
+
+////////////////////////////////////////////////////////////////////////////////////*/
+
+
+body .profile-info {
+    margin-bottom: 20px;
+    padding: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    /* background-color: #dd1010 !important; */
+}
+
+ul {
+    list-style-type: none; /* Supprime les puces */
+    padding: 0; /* Supprime le remplissage par défaut */
+}
+
+.cardFavoris{
+    
+    border: 2px solid rgba(212, 175, 55, 0.95); /*border jaune pour mes favoris 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);*/
+
 }

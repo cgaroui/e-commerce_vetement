@@ -20,10 +20,10 @@ class Commande
     private ?float $prixTotal = null;
 
     #[ORM\Column(length: 50)]
-    private ?string $nomClient = null;
+    private ?string $nomUser = null;
 
     #[ORM\Column(length: 50)]
-    private ?string $prenomClient = null;
+    private ?string $prenomUser = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $dateCommande = null;
@@ -35,7 +35,7 @@ class Commande
     private Collection $detailCommandes;
 
     #[ORM\ManyToOne(inversedBy: 'commandes')]
-    private ?Client $client = null;
+    private ?User $user = null;
 
     #[ORM\ManyToOne(inversedBy: 'commandes')]
     private ?Livraison $livraison = null;
@@ -73,26 +73,34 @@ class Commande
         return $this;
     }
 
-    public function getNomClient(): ?string
+ /**
+     * Get the value of nomUser
+     */ 
+    public function getNomUser()
     {
-        return $this->nomClient;
+        return $this->nomUser;
     }
 
-    public function setNomClient(string $nomClient): static
+    /**
+     * Set the value of nomUser
+     *
+     * @return  self
+     */ 
+    public function setNomUser($nomUser)
     {
-        $this->nomClient = $nomClient;
+        $this->nomUser = $nomUser;
 
         return $this;
     }
 
-    public function getPrenomClient(): ?string
+    public function getPrenomUser(): ?string
     {
-        return $this->prenomClient;
+        return $this->prenomUser;
     }
 
-    public function setPrenomClient(string $prenomClient): static
+    public function setPrenomUser(string $prenomUser): static
     {
-        $this->prenomClient = $prenomClient;
+        $this->prenomUser = $prenomUser();
 
         return $this;
     }
@@ -144,14 +152,14 @@ class Commande
         return $this;
     }
 
-    public function getClient(): ?Client
+    public function getUser(): ?User
     {
-        return $this->client;
+        return $this->user;
     }
 
-    public function setClient(?Client $client): static
+    public function setUser(?User $user): static
     {
-        $this->client = $client;
+        $this->user = $user;
 
         return $this;
     }
@@ -179,4 +187,6 @@ class Commande
 
         return $this;
     }
+
+   
 }

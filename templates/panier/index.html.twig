@@ -29,7 +29,7 @@
                                 <td>
                                     <a href="{{path('ajout_panier',{id:element.produit.id})}}"  class= "btn btn-success">+</a>
                                     <a href="{{path('retirer_du_panier',{id:element.produit.id})}}" class= "btn btn-warning">-</a>
-                                    <a href="#" class= "btn btn-danger">Supprimer</a>
+                                    <a href="{{ path('supprimer_du_panier',{id: element.produit.id})}}" class= "btn btn-danger">Supprimer</a>
                                 </td>
                             </tr>
                             {% else %}
@@ -43,17 +43,13 @@
                             <td colspan="3">Total</td>
                             <td>{{ total }} €</td>
                             <td>
-                                <a href="" class="btn btn-danger">Vider panier</a>
+                                <a href="{{ path('vider_panier')}}" class="btn btn-danger">Vider panier</a>
                             </td>
 
                         </tr>
                     </tfoot>
                 </table>
-                <div>
-                  
-                
-                    {# <p>ToTAL de la commande :  {{element.totalCommande}} </p> #}
-                </div> 
+                <a href="{{path('ajout_commande')}}" class="btn btn-primary">Valider le panier</a>
             </div>
         </section>
     </div>

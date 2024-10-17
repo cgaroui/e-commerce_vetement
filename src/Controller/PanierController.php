@@ -30,14 +30,17 @@ class PanierController extends AbstractController
                 'produit' =>$produit,
                 'quantite' => $quantite
             ];
+            // if ($produit->getReduction() != null){
+            //     $total = 
+            // }
             $total+= $produit->getPrix() * $quantite;
             
         }
         
         return $this->render('panier/index.html.twig',
          [
-            'produit' => $produit,
-            'quantite' => $quantite,
+            // 'produit' => $produit,
+            // 'quantite' => $quantite,
             'data' => $data,
             'total' => $total
         ]);
@@ -90,5 +93,35 @@ class PanierController extends AbstractController
       //on redirige vers le panier 
       return $this->redirectToRoute('app_panier');
 
+    }
+
+    #[Route('/panier/supprimer/{id}', name: 'supprimer_du_panier')]
+    public function supprimerProduit(Produit $produit,SessionInterface $session )
+    {
+        //on recupere l'id du produit 
+        $id = $produit->getId();
+
+        //on recupere le panier existant 
+        $panier = $session->get('panier', []);
+
+        //on verifie d'abord si le panier n'est pas vide 
+        if(!empty($panier[$id])){
+            unset($panier[$id]); //on  supprime le produit 
+        }
+        $session->set('panier', $panier);
+      //on redirige vers le panier 
+      return $this->redirectToRoute('app_panier');
+
+    }
+
+    #[Route('/panier/vider', name: 'vider_panier')]
+    public function viderPanier(SessionInterface $session )
+    {
+        
+        $session->remove('panier');
+
+        //on redirige vers le panier 
+      return $this->redirectToRoute('app_panier');
+        
     }
 }

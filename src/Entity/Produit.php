@@ -88,11 +88,7 @@ class Produit
     #[ORM\OneToMany(targetEntity: Favoris::class, mappedBy: 'produit')]
     private Collection $favoris;
 
-    /**
-     * @var Collection<int, MatiereProduit>
-     */
-    #[ORM\OneToMany(targetEntity: MatiereProduit::class, mappedBy: 'produit')]
-    private Collection $matiereProduits;
+   
 
     /**
      * @var Collection<int, Commentaire>
@@ -105,7 +101,6 @@ class Produit
         $this->detailCommandes = new ArrayCollection();
         $this->detailProduits = new ArrayCollection();
         $this->favoris = new ArrayCollection();
-        $this->matiereProduits = new ArrayCollection();
         $this->commentaires = new ArrayCollection();
     }
 
@@ -287,35 +282,6 @@ class Produit
         if ($this->favoris->removeElement($favori)) {
             if ($favori->getProduit() === $this) {
                 $favori->setProduit(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, MatiereProduit>
-     */
-    public function getMatiereProduits(): Collection
-    {
-        return $this->matiereProduits;
-    }
-
-    public function addMatiereProduit(MatiereProduit $matiereProduit): static
-    {
-        if (!$this->matiereProduits->contains($matiereProduit)) {
-            $this->matiereProduits->add($matiereProduit);
-            $matiereProduit->setProduit($this);
-        }
-
-        return $this;
-    }
-
-    public function removeMatiereProduit(MatiereProduit $matiereProduit): static
-    {
-        if ($this->matiereProduits->removeElement($matiereProduit)) {
-            if ($matiereProduit->getProduit() === $this) {
-                $matiereProduit->setProduit(null);
             }
         }
 

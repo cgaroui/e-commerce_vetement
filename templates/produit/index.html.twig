@@ -55,7 +55,7 @@
 
                         <div class="add">
                             <a style="text-decoration:none;" href="{{path('ajout_panier',{id: produit.id})}}"> <img src=" {{ asset('img/panierAdd.png') }} " alt="PanierAdd"> </a>&nbsp;
-                            <a style="text-decoration:none;" href="#"> <img src="{{ asset('img/coeurAdd.png') }}" alt="favoris"> </a>&nbsp;
+                            <a style="text-decoration:none;" href="{{path('ajout_favoris',{produitId: produit.id})}}"> <img src="{{ asset('img/coeurAdd.png') }}" alt="favoris"> </a>&nbsp;
                          </div>
 {# 
                         <div class="adminAcces">

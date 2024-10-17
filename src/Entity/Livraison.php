@@ -27,8 +27,8 @@ class Livraison
     #[ORM\OneToMany(targetEntity: Commande::class, mappedBy: 'livraison')]
     private Collection $commandes;
 
-    #[ORM\ManyToOne(inversedBy: 'livraisons')]
-    private ?Adresse $adresse = null;
+    // #[ORM\ManyToOne(inversedBy: 'livraisons')]
+    // private ?Adresse $adresse = null;
 
     public function __construct()
     {
@@ -94,15 +94,4 @@ class Livraison
         return $this;
     }
 
-    public function getAdresse(): ?Adresse
-    {
-        return $this->adresse;
-    }
-
-    public function setAdresse(?Adresse $adresse): static
-    {
-        $this->adresse = $adresse;
-
-        return $this;
-    }
 }

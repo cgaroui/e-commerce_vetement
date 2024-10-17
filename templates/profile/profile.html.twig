@@ -1,0 +1,25 @@
+
+
+{% extends 'base.html.twig' %}
+
+{% block title %}Mon Compte{% endblock %}
+
+{% block body %}
+    <h1>Mon Compte</h1>
+
+    <div class="profile-info">
+        <h2>Informations personnelles</h2>
+        <ul>
+            <li><strong>Nom:</strong> {{ user.nom }}</li>
+            <li><strong>Prénom:</strong> {{ user.prenom }}</li>
+            <li><strong>Email:</strong> {{ user.email }}</li>
+            <li><strong>Téléphone:</strong> {{ user.telephone is not null ? user.telephone : 'Non renseigné' }}</li>
+            <li><strong>Date d'inscription:</strong> {{ user.dateInscription ? user.dateInscription|date('d/m/Y H:i') : 'Non renseigné' }}</li>
+            <li><strong>Date de naissance:</strong> {{ user.dateNaissance ? user.dateNaissance|date('d/m/Y') : 'Non renseigné' }}</li>
+        </ul>
+    </div>
+
+    <div class="actions">
+        <a href="{{ path('app_profile_edit') }}" class="btn btn-primary">Modifier mes informations</a>
+    </div>
+{% endblock %}

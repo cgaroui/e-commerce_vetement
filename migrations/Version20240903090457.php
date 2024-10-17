@@ -33,7 +33,7 @@ final class Version20240903090457 extends AbstractMigration
         $this->addSql('CREATE TABLE likes (id INT AUTO_INCREMENT NOT NULL, client_id INT DEFAULT NULL, comentaire_id INT DEFAULT NULL, INDEX IDX_49CA4E7D19EB6921 (client_id), INDEX IDX_49CA4E7DE26E6343 (comentaire_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE livraison (id INT AUTO_INCREMENT NOT NULL, adresse_id INT DEFAULT NULL, nom_destinataire VARCHAR(50) NOT NULL, choix_livraison VARCHAR(255) NOT NULL, INDEX IDX_A60C9F1F4DE7DC5C (adresse_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE matiere (id INT AUTO_INCREMENT NOT NULL, nom VARCHAR(50) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
-        $this->addSql('CREATE TABLE matiere_produit (id INT AUTO_INCREMENT NOT NULL, matiere_id INT DEFAULT NULL, produit_id INT DEFAULT NULL, INDEX IDX_4A8363DBF46CD258 (matiere_id), INDEX IDX_4A8363DBF347EFB (produit_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE   (id INT AUTO_INCREMENT NOT NULL, matiere_id INT DEFAULT NULL, produit_id INT DEFAULT NULL, INDEX IDX_4A8363DBF46CD258 (matiere_id), INDEX IDX_4A8363DBF347EFB (produit_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE newsletter (id INT AUTO_INCREMENT NOT NULL, date_envoie DATETIME NOT NULL, contenu LONGTEXT NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE newsletter_prospet (id INT AUTO_INCREMENT NOT NULL, prospet_id INT DEFAULT NULL, newsletter_id INT DEFAULT NULL, INDEX IDX_41AFAD893870A009 (prospet_id), INDEX IDX_41AFAD8922DB1917 (newsletter_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE produit (id INT AUTO_INCREMENT NOT NULL, prix INT NOT NULL, nom VARCHAR(50) NOT NULL, reference VARCHAR(50) NOT NULL, description LONGTEXT DEFAULT NULL, image VARCHAR(255) NOT NULL, reduction INT DEFAULT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
@@ -56,8 +56,8 @@ final class Version20240903090457 extends AbstractMigration
         $this->addSql('ALTER TABLE likes ADD CONSTRAINT FK_49CA4E7D19EB6921 FOREIGN KEY (client_id) REFERENCES client (id)');
         $this->addSql('ALTER TABLE likes ADD CONSTRAINT FK_49CA4E7DE26E6343 FOREIGN KEY (comentaire_id) REFERENCES commentaire (id)');
         $this->addSql('ALTER TABLE livraison ADD CONSTRAINT FK_A60C9F1F4DE7DC5C FOREIGN KEY (adresse_id) REFERENCES adresse (id)');
-        $this->addSql('ALTER TABLE matiere_produit ADD CONSTRAINT FK_4A8363DBF46CD258 FOREIGN KEY (matiere_id) REFERENCES matiere (id)');
-        $this->addSql('ALTER TABLE matiere_produit ADD CONSTRAINT FK_4A8363DBF347EFB FOREIGN KEY (produit_id) REFERENCES produit (id)');
+        $this->addSql('ALTER TABLE   ADD CONSTRAINT FK_4A8363DBF46CD258 FOREIGN KEY (matiere_id) REFERENCES matiere (id)');
+        $this->addSql('ALTER TABLE   ADD CONSTRAINT FK_4A8363DBF347EFB FOREIGN KEY (produit_id) REFERENCES produit (id)');
         $this->addSql('ALTER TABLE newsletter_prospet ADD CONSTRAINT FK_41AFAD893870A009 FOREIGN KEY (prospet_id) REFERENCES prospet (id)');
         $this->addSql('ALTER TABLE newsletter_prospet ADD CONSTRAINT FK_41AFAD8922DB1917 FOREIGN KEY (newsletter_id) REFERENCES newsletter (id)');
     }
@@ -81,8 +81,8 @@ final class Version20240903090457 extends AbstractMigration
         $this->addSql('ALTER TABLE likes DROP FOREIGN KEY FK_49CA4E7D19EB6921');
         $this->addSql('ALTER TABLE likes DROP FOREIGN KEY FK_49CA4E7DE26E6343');
         $this->addSql('ALTER TABLE livraison DROP FOREIGN KEY FK_A60C9F1F4DE7DC5C');
-        $this->addSql('ALTER TABLE matiere_produit DROP FOREIGN KEY FK_4A8363DBF46CD258');
-        $this->addSql('ALTER TABLE matiere_produit DROP FOREIGN KEY FK_4A8363DBF347EFB');
+        $this->addSql('ALTER TABLE   DROP FOREIGN KEY FK_4A8363DBF46CD258');
+        $this->addSql('ALTER TABLE   DROP FOREIGN KEY FK_4A8363DBF347EFB');
         $this->addSql('ALTER TABLE newsletter_prospet DROP FOREIGN KEY FK_41AFAD893870A009');
         $this->addSql('ALTER TABLE newsletter_prospet DROP FOREIGN KEY FK_41AFAD8922DB1917');
         $this->addSql('DROP TABLE adresse');
@@ -98,7 +98,7 @@ final class Version20240903090457 extends AbstractMigration
         $this->addSql('DROP TABLE likes');
         $this->addSql('DROP TABLE livraison');
         $this->addSql('DROP TABLE matiere');
-        $this->addSql('DROP TABLE matiere_produit');
+        $this->addSql('DROP TABLE  ');
         $this->addSql('DROP TABLE newsletter');
         $this->addSql('DROP TABLE newsletter_prospet');
         $this->addSql('DROP TABLE produit');
