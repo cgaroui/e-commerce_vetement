@@ -62,4 +62,10 @@ class DetailCommande
 
         return $this;
     }
+
+    //cette fonction permet de s'assurer qu'il n'ya pas de doublon, qu'un article ne soit pas ajouté au panier 2 fois grace à son id 
+    public function equals(DetailCommande $article) : bool
+    {
+        return $this->getProduit()->getId() === $article->getProduit()->getId();
+    }
 }

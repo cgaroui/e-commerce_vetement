@@ -33,14 +33,14 @@ class PanierController extends AbstractController
             // if ($produit->getReduction() != null){
             //     $total = 
             // }
+
             $total+= $produit->getPrix() * $quantite;
             
         }
         
         return $this->render('panier/index.html.twig',
          [
-            // 'produit' => $produit,
-            // 'quantite' => $quantite,
+        
             'data' => $data,
             'total' => $total
         ]);
@@ -62,7 +62,12 @@ class PanierController extends AbstractController
         }else{
             $panier[$id]++;
         }
+
+        // Enregistrer le panier mis à jour dans la session
         $session->set('panier', $panier);
+
+        // dd($session->get('panier'));
+
       //on redirige vers lepanier 
       return $this->redirectToRoute('app_panier');
 

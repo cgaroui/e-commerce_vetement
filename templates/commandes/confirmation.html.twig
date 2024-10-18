@@ -1,0 +1,15 @@
+<h1>Merci pour votre commande !</h1>
+<p>Votre commande a été passée avec succès.</p>
+
+<h2>Détails de la commande :</h2>
+<ul>
+    {% for detail in commande.detailCommandes %}
+        <li>
+            {{ detail.produit.nom }} - Quantité : {{ detail.quantite }} - Prix : {{ detail.produit.prix * detail.quantite }} €
+        </li>
+    {% endfor %}
+</ul>
+
+<a href="{{path('paiment_stripe', {refCommmande : commande.refcommande})}}">stripe</a>
+
+<p>Total : {{ commande.prixTotal }} €</p>

@@ -2,10 +2,11 @@
 
 namespace App\Form;
 
-use App\Entity\Categorie;
 use App\Entity\Produit;
+use App\Entity\Categorie;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
@@ -88,25 +89,13 @@ class ProduitType extends AbstractType
             ])
                 
                     
-                    // Nouveau champ de catégories sous forme de cases à cocher
-                    ->add('categorie', ChoiceType::class, [
-                        'label' => 'Catégories du produit',
-                        'choices' => [
-                            'parfum' => '1',
-                            'Soins cheveux' => '2',
-                            'soins visage' => '3',
-                            'solaire' => '4',
-                            'maquillage' => '5',
-                        ],
-                        'multiple' => true, // Permet de sélectionner plusieurs catégories
-                        'expanded' => true, // Affiche les options sous forme de cases à cocher
-                        'constraints' => [
-                            new Assert\Count([
-                                'min' => 1,
-                                'minMessage' => 'Vous devez sélectionner au moins une catégorie.',
-                            ])
-                        ]
-                            ]);
+                    // Nouveau champ de catégories sous forme de selecteur
+                    ->add('nom', TextType::class)
+                    ->add('prix', IntegerType::class)
+                    ->add('categorie', EntityType::class, [
+                        'class' => Categorie::class,
+                        'choice_label' => 'nom', // Supposons que 'nom' est un champ de votre entité Categorie
+                    ]);
             }
         
             public function configureOptions(OptionsResolver $resolver): void

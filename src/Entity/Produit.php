@@ -50,7 +50,7 @@ class Produit
     private ?\DateTimeImmutable $dateCreation = null;
 
     #[ORM\ManyToOne(targetEntity: Categorie::class, inversedBy: 'produits')]
-    #[ORM\JoinColumn(nullable: false)] // This means every produit must have a category
+    #[ORM\JoinColumn(nullable: false)] // veux dire que chaque produit a obligatoirement une categorie
     private ?Categorie $categorie = null;
 
     #[ORM\PrePersist]
