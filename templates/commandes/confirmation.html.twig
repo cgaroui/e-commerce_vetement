@@ -10,6 +10,6 @@
     {% endfor %}
 </ul>
 
-<a href="{{path('paiment_stripe', {refCommmande : commande.refcommande})}}">stripe</a>
+<a href="{{ path('paiment_stripe', {'refCommande': commande.refCommande}) }}">Payer</a>
 
 <p>Total : {{ commande.prixTotal }} €</p>
