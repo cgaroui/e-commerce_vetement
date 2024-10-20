@@ -2,7 +2,146 @@
 #container{
     display: flex;
     flex-direction: column;
+    margin: 0;
 }
+
+
+    /* Styles pour l'image de fond */
+    .section-hero {
+        position: relative;
+        width: 100%;
+        height: auto;
+        background-image: url('{{ asset('img/grandeAccueil.jpg') }}');
+        background-size: cover;
+        background-position: center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white; /* Pour le texte blanc sur l'arrière-plan sombre */
+        text-align: center; /* Centre le texte */
+    }
+
+    .superposition-hero {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: rgba(0, 0, 0, 0.5); /* Overlay sombre */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column; /* Aligne le contenu verticalement */
+    }
+
+    .titre-principal {
+        font-size: 2.5rem; /* Taille du titre */
+        margin-bottom: 1rem; /* Espacement sous le titre */
+    }
+
+    .texte-principal {
+        font-size: 1.25rem; /* Taille du texte */
+        margin-bottom: 2rem; /* Espacement sous le texte */
+    }
+
+    .btn-principal {
+        background-color: #007bff; /* Couleur primaire */
+        color: white; /* Couleur du texte */
+        padding: 10px 20px; /* Espacement interne */
+        text-decoration: none; /* Pas de soulignement */
+        border-radius: 5px; /* Coins arrondis */
+        transition: background-color 0.3s; /* Effet de transition */
+    }
+
+    .btn-principal:hover {
+        background-color: #0056b3; /* Couleur au survol */
+    }
+
+  
+
+
+    .produits-tendances {
+        display: flex;
+        flex-wrap: wrap; /* Permet d'enrouler les cartes */
+        justify-content: space-between; /* Espace entre les cartes */
+    }
+
+    .carte-produit {
+        border: 1px solid #ddd; /* Bordure de la carte */
+        border-radius: 5px; /* Coins arrondis */
+        margin-bottom: 20px; /* Marge inférieure */
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Ombre légère */
+        transition: transform 0.2s; /* Effet de transition */
+    }
+
+    .carte-produit:hover {
+        transform: translateY(-5px); /* Légère élévation au survol */
+    }
+
+    .image-produit {
+        width: 100%; /* Prend toute la largeur */
+        height: auto; /* Conserve les proportions */
+    }
+
+    .ajouter-panier {
+        display: flex;
+        align-items: center; /* Aligne les icônes verticalement */
+    }
+
+    .ajouter-panier img {
+        width: 30px; /* Largeur des icônes du panier et des favoris */
+        height: auto; /* Conserve les proportions */
+        margin-right: 5px; /* Espace entre les icônes */
+    }
+
+
+
+
+/*///////////////////////////////////////////////////////////////////////////////////////////////////
+/ 
+                               Styles de categories 
+
+////////////////////////////////////////////////////////////////////////////////////*/
+
+.categories-produits {
+    display: flex;
+    justify-content: center; /* Centre les éléments horizontalement */
+    flex-wrap: wrap; /* Permet le passage à la ligne */
+    margin: 20px 0; /* Espace autour de la section */
+}
+
+
+.item img {
+    width: 150px;
+    /* height: 150px; */
+    /* border-radius: 50%; Rendre l'image ronde */
+    /* object-fit: cover; Pour que l'image couvre tout le conteneur */
+    /* transition: transform 0.3s; Pour le zoom de l'image */
+}
+
+.categorie-item:hover {
+    transform: scale(1.05); /* Zoom au survol */
+}
+
+.categorie-item:hover img {
+    transform: scale(1.1); /* Zoom sur l'image au survol */
+}
+
+.categorie-item span {
+    margin-top: 5px; /* Espace entre l'image et le texte */
+    font-weight: bold; /* Pour mettre en gras le texte */
+    text-align: center; /* Centre le texte */
+}
+
+
+
+
+
+
+
+
+
+
 
 
 /*///////////////////////////////////////////////////////////////////////////////////////////////////

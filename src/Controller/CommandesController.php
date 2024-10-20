@@ -49,8 +49,9 @@ class CommandesController extends AbstractController
 
         $prixTotal = 0;
 
-        // Parcourir le panier et créer le détails de la commande (les articles dans le panier )
+        // parcourir le panier et créer le détails de la commande (les articles dans le panier )
         foreach ($panier as $idProduit => $quantite) {
+            //on recupere le produit par son id 
             $produit = $entityManager->getRepository(Produit::class)->find($idProduit);
 
             if ($produit) {
@@ -60,11 +61,10 @@ class CommandesController extends AbstractController
                 $detailCommande->setCommande($commande);
 
                 $commande->addDetailCommande($detailCommande);
-                $prixTotal += $produit->getPrix() * $quantite; // Supposez que vous avez une méthode pour obtenir le prix du produit
-            }
+                $prixTotal += $produit->getPrix() * $quantite; 
         }
 
-        // Mettre à jour le prix total et sauvegarder la commande
+        //mettre à jour le prix total et sauvegarder la commande en bdd
         $commande->setPrixTotal($prixTotal);
         $entityManager->persist($commande);
         $entityManager->flush();
@@ -72,12 +72,15 @@ class CommandesController extends AbstractController
         // Retirer le panier de la session après la commande
         $session->remove('panier');
 
-       // Redirection vers la page de confirmation avec l'ID de la commande
-return $this->redirectToRoute('confirmation_commande', [
-    'id' => $commande->getId(),
-    'refCommande' => $commande->getRefCommande()
-]);
+       // redirection vers la page de confirmation avec l'ID de la commande
+        return $this->redirectToRoute('confirmation_commande', [
+        'id' => $commande->getId(),
+        'refCommande' => $commande->getRefCommande()
+        ]);
+    
+        }
     }
+    
 
 
     #[Route('/commande/confirmation/{id}', name: 'confirmation_commande')]

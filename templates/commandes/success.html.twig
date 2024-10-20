@@ -1,0 +1,11 @@
+{# templates/commandes/success.html.twig #}
+
+{% extends 'base.html.twig' %}
+
+{% block title %}Paiement réussi{% endblock %}
+
+{% block body %}
+    <h1>Félicitations !</h1>
+    <p>Votre paiement pour la commande {{ refCommande }} a été réalisé avec succès.</p>
+    <a href="{{ path('app_home') }}">Retour à l'accueil</a>
+{% endblock %}

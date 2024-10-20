@@ -1,33 +1,44 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}Détails du Produit{% endblock %}
-
 {% block body %}
 <div class="containerDetailProduit">
-
     
-<div class="categories">
-    <a href="{{ path('produits_par_categorie', { id: 1 }) }}" class="category-item">
-        <img src="{{ asset('img/parfum.jpg') }}" alt="Parfum">
-        <span>Parfum</span>
-    </a>
-    <a href="{{ path('produits_par_categorie', { id: 2 }) }}" class="category-item">
-        <img src="{{ asset('img/cheveux.jpg') }}" alt="Soins cheveux">
-        <span>Soins cheveux</span>
-    </a>
-    <a href="{{ path('produits_par_categorie', { id: 3 }) }}" class="category-item">
-        <img src="{{ asset('img/visage.jpg') }}" alt="Soins visage">
-        <span>Soins visage</span>
-    </a>
-    <a href="{{ path('produits_par_categorie', { id: 4 }) }}" class="category-item">
-        <img src="{{ asset('img/solaire.jpg') }}" alt="solaire">
-        <span>Solaire</span>
-    </a>
-    <a href="{{ path('produits_par_categorie', { id: 5 }) }}" class="category-item">
-        <img src="{{ asset('img/maquillage.jpg') }}" alt="Maquillage">
-        <span>Maquillage></span>
-    </a>
-</div>
+    {% for message in app.flashes('error') %}
+        <div class="alert alert-danger">
+            {{ message }}
+        </div>
+    {% endfor %}
+    
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success">
+            {{ message }}
+        </div>
+    {% endfor %}
+    
+    <div class="categories">
+        <a href="{{ path('produits_par_categorie', { id: 1 }) }}" class="categorie-item">
+            <img src="{{ asset('img/parfum.jpg') }}" alt="Parfum">
+            <span>Parfum</span>
+        </a>
+        <a href="{{ path('produits_par_categorie', { id: 2 }) }}" class="categorie-item">
+            <img src="{{ asset('img/cheveux.jpg') }}" alt="Soins cheveux">
+            <span>Soins cheveux</span>
+        </a>
+        <a href="{{ path('produits_par_categorie', { id: 3 }) }}" class="categorie-item">
+            <img src="{{ asset('img/visage.jpg') }}" alt="Soins visage">
+            <span>Soins visage</span>
+        </a>
+        <a href="{{ path('produits_par_categorie', { id: 4 }) }}" class="categorie-item">
+            <img src="{{ asset('img/solaire.jpg') }}" alt="Solaire">
+            <span>Solaire</span>
+        </a>
+        <a href="{{ path('produits_par_categorie', { id: 5 }) }}" class="categorie-item">
+            <img src="{{ asset('img/maquillage.jpg') }}" alt="Maquillage">
+            <span>Maquillage</span>
+        </a>
+    </div>
+    
 
     <div class="detailProduit mt-4">
         <div class="card_detail-produit">
@@ -80,6 +91,12 @@
                         {% if commentaire.photoProduit %}
                             <img src="{{ asset('uploads/' ~ commentaire.photoProduit) }}" alt="Image du commentaire" style="max-width: 200px;">
                         {% endif %}
+                        <div>
+                            <a href="{{ path('supprimer_commentaire', {id: produit.id, idCommentaire : commentaire.id}) }}" class="btn btn-danger" onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce commentaire ?');">
+                                Supprimer le commentaire
+                            </a>
+                        </div>
+                    
                     </li>
                 {% endfor %}
             </ul>

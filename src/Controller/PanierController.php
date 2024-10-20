@@ -24,19 +24,26 @@ class PanierController extends AbstractController
         // $session->set('panier',[]); // pour supprimer le panier car j'avais un produit inexistant 
 
         //on parcourt le paniser sous forme clé valeur de chque produit par son id et sa quantité 
-        foreach($panier as $id => $quantite){
+        foreach($panier as $id => $quantite) {
             $produit = $ProduitRepository->find($id);
+            $prix = $produit->getPrix();
+        
+            // Calcul du prix unitaire avec ou sans réduction
+            if ($produit->getReduction() !== null && $produit->getReduction() > 0) {
+                $prixUnitaire = $prix - (($prix * $produit->getReduction()) / 100);
+            } else {
+                $prixUnitaire = $produit->getPrix();
+            }
+        
             $data[] = [
-                'produit' =>$produit,
-                'quantite' => $quantite
+                'produit' => $produit,
+                'quantite' => $quantite,
+                'prixUnitaire' => $prixUnitaire, // Ajout du prix unitaire calculé
             ];
-            // if ($produit->getReduction() != null){
-            //     $total = 
-            // }
-
-            $total+= $produit->getPrix() * $quantite;
-            
+        
+            $total += $prixUnitaire * $quantite; // Utiliser le prix unitaire dans le total
         }
+        
         
         return $this->render('panier/index.html.twig',
          [

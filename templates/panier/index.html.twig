@@ -20,23 +20,30 @@
                     <tbody>
 
                         {% for element in data %}
-                      
-                            <tr>
-                                <td>{{element.produit.nom}}</td>
-                                <td>{{element.produit.prix}}</td>
-                                <td>{{element.quantite}}</td>
-                                <td>{{element.quantite * element.produit.prix}} €</td>
-                                <td>
-                                    <a href="{{path('ajout_panier',{id:element.produit.id})}}"  class= "btn btn-light">+</a>
-                                    <a href="{{path('retirer_du_panier',{id:element.produit.id})}}" class= "btn btn-light">-</a>
-                                    <a href="{{ path('supprimer_du_panier',{id: element.produit.id})}}" class= "btn btn-danger">Supprimer</a>
-                                </td>
-                            </tr>
-                            {% else %}
-                            <tr>
-                                <td colspan="3">Votre panier est vide </td>
-                            </tr>
-                       {% endfor %}
+                        <tr>
+                            <td><a href="{{path('produit_detail',{id: element.produit.id})}}">{{ element.produit.nom }}</a></td>
+                            
+                            {# Prix unitaire déjà calculé dans le contrôleur (réduction incluse s'il y en a) #}
+                            <td>{{ element.prixUnitaire|number_format(2, '.', ',') }} €</td>
+                            
+                            <td>{{ element.quantite }}</td>
+                    
+                            {# Total pour cet article = prix unitaire * quantité #}
+                            <td>{{ (element.prixUnitaire * element.quantite)|number_format(2, '.', ',') }} €</td>
+                    
+                            <td>
+                                <a href="{{ path('ajout_panier', { id: element.produit.id }) }}" class="btn btn-light">+</a>
+                                <a href="{{ path('retirer_du_panier', { id: element.produit.id }) }}" class="btn btn-light">-</a>
+                                <a href="{{ path('supprimer_du_panier', { id: element.produit.id }) }}" class="btn btn-danger">Supprimer</a>
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="3">Votre panier est vide</td>
+                        </tr>
+                    {% endfor %}
+                    
+                    
                     </tbody>
                     <tfoot>
                         <tr>

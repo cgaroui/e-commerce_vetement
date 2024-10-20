@@ -1,0 +1,11 @@
+{# templates/commandes/error.html.twig #}
+
+{% extends 'base.html.twig' %}
+
+{% block title %}Échec du paiement{% endblock %}
+
+{% block body %}
+    <h1>Échec du paiement</h1>
+    <p>Malheureusement, le paiement pour la commande {{ refCommande }} a échoué. Veuillez réessayer.</p>
+    <a href="{{ path('app_home') }}">Retour à l'accueil</a>
+{% endblock %}

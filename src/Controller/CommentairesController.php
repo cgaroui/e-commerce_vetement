@@ -54,4 +54,39 @@ class CommentairesController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
+
+
+    #[Route('/produit/{id}/commentaire-supp/{idCommentaire}', name: 'supprimer_commentaire')]
+    public function supprimerCommentaire(Request $request, EntityManagerInterface $em, Produit $produit, $idCommentaire)
+    {
+        // Vérifier si l'utilisateur est connecté
+        $user = $this->getUser();
+        if (!$user) {
+            return $this->redirectToRoute('app_login');
+        }
+
+        // Récupérer le commentaire à partir de l'ID du commentaire
+        $commentaire = $em->getRepository(Commentaire::class)->find($idCommentaire);
+        // dd($commentaire);// recupération du commentaire à supprimer ok 
+
+        // verifier si le commentaire existe et si l'utilisateur est bien l'auteur
+        if (!$commentaire || $commentaire->getUser() !== $user) {
+            $this->addFlash('error', "vous ne pouvez pas supprimer ce commentaire ");
+        } else {
+            // Supprimer le commentaire
+            $em->remove($commentaire);
+            $em->flush();
+            $this->addFlash('success', "Le commentaire a été supprimé avec succès!");
+        }
+
+        // Rendre la page du produit mise à jour
+        return $this->render('produit/detail.html.twig', [
+            'produit' => $produit,
+            'commentaires' => $produit->getCommentaires(), 
+            'idCommentaire' => $idCommentaire
+        ]);
+    }
+
+    
+
 }

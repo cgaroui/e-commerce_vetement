@@ -4,90 +4,76 @@
 
 {% block body %}
 
-<div class="hero-image">
-    <div class="overlay">
-        <div class="content">
+<div class="image-hero">
+    <div class="superposition-hero">
+        <div class="contenu-hero">
             <h1>Bienvenue sur notre site de cosmétiques</h1>
             <p>Découvrez nos produits exceptionnels et offrez-vous un moment de beauté</p>
-            <a href="{{ path('app_login') }}" class="btn btn-primary">Se connecter</a>
+            <a href="{{ path('app_login') }}" class="btn btn-primaire">Se connecter</a>
         </div>
     </div>
 </div>
 <style>
-    .hero-image {
+    .image-hero {
         position: relative;
         width: 100%;
         height: 500px;
         background-image: url('{{ asset('img/grandeAccueil.jpg') }}');
         background-size: cover;
         background-position: center;
-        
     }
 </style>
 
-
-<div class="categories">
-    <a href="{{ path('produits_par_categorie', { id: 1 }) }}" class="category-item">
+<div class="categories-produits">
+    <a href="{{ path('produits_par_categorie', { id: 1 }) }}" class="item">
         <img src="{{ asset('img/parfum.jpg') }}" alt="Parfum">
         <span>Parfum</span>
     </a>
-    <a href="{{ path('produits_par_categorie', { id: 2 }) }}" class="category-item">
+    <a href="{{ path('produits_par_categorie', { id: 2 }) }}" class="item-categorie">
         <img src="{{ asset('img/cheveux.jpg') }}" alt="Soins cheveux">
         <span>Soins cheveux</span>
     </a>
-    <a href="{{ path('produits_par_categorie', { id: 3 }) }}" class="category-item">
+    <a href="{{ path('produits_par_categorie', { id: 3 }) }}" class="item-categorie">
         <img src="{{ asset('img/visage.jpg') }}" alt="Soins visage">
         <span>Soins visage</span>
     </a>
-    <a href="{{ path('produits_par_categorie', { id: 4 }) }}" class="category-item">
+    <a href="{{ path('produits_par_categorie', { id: 4 }) }}" class="item-categorie">
         <img src="{{ asset('img/solaire.jpg') }}" alt="solaire">
         <span>Solaire</span>
     </a>
-    <a href="{{ path('produits_par_categorie', { id: 5 }) }}" class="category-item">
+    <a href="{{ path('produits_par_categorie', { id: 5 }) }}" class="item-categorie">
         <img src="{{ asset('img/maquillage.jpg') }}" alt="Maquillage">
-        <span>Maquillage></span>
+        <span>Maquillage</span>
     </a>
 </div>
 
 <strong><p>Tendance</p></strong><br>
 
-
 {% for produit in produits %}
-            <div class="col-md-4 mb-4 tendances-accueil " >
-                <div class="card h-100">
-                    
-                    <img src="{{ produit.image }}" class="card-img-top" alt="Image de {{ produit.nom }}">
-                    
-                    <div class="card-body">
+    <div class="col-md-4 mb-4 tendance-accueil">
+        <div class="carte-produit h-100">
+            <img src="{{ produit.image }}" class="image-produit" alt="Image de {{ produit.nom }}">
+            <div class="corps-carte">
 
-                        <div class="nomProduit">
-                            <h5 class="card-title"><a href="{{ path('produit_detail', {'id': produit.id}) }}">{{ produit.nom }}</a></h5>
-                            {% if produit.reduction %}
-                            <p class="card-text">
-                                <span style="text-decoration: line-through;">{{ produit.prix }} €</span><br>
-                                <span style="font-weight: bold; ">{{ produit.prix - (produit.prix * produit.reduction / 100) }} €</span>
-                                <span class="badge bg-success">{{ produit.reduction }}% de réduction</span>
-                            </p>
-                    
-                        {% endif %}
-                            <p class="card-text">{{ produit.prix }} €</p>
-                        </div>
+                <div class="nom-produit">
+                    <h5 class="titre-produit"><a href="{{ path('produit_detail', {'id': produit.id}) }}">{{ produit.nom }}</a></h5>
+                    {% if produit.reduction %}
+                        <p class="texte-produit">
+                            <span style="text-decoration: line-through;">{{ produit.prix }} €</span><br>
+                            <span style="font-weight: bold;">{{ produit.prix - (produit.prix * produit.reduction / 100) }} €</span>
+                            <span class="badge bg-success">{{ produit.reduction }}% de réduction</span>
+                        </p>
+                    {% endif %}
+                    <p class="texte-produit">{{ produit.prix }} €</p>
+                </div>
 
-                        <div class="add">
-                            <a style="text-decoration:none;" href="#"> <img src=" {{ asset('img/panierAdd.png') }} " alt="PanierAdd"> </a>&nbsp;
-                            <a style="text-decoration:none;" href="#"> <img src="{{ asset('img/coeurAdd.png') }}" alt="favoris"> </a>&nbsp;
-                         </div>
-{# 
-                        <div class="adminAcces">
-                            <a href="{{ path('edit_produit', { id: produit.id }) }}" class="btn btn-primary">Modifier</a>
-                            <form method="post" action="{{ path('supprimer_produit', {id: produit.id}) }}" onsubmit="return confirm('Voulez-vous vraiment supprimer ce produit ?');">
-                                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ produit.id) }}">
-                                <button class="btn btn-danger">Supprimer</button>
-                            </form>
-                        </div> #}
-                    </div>
+                <div class="ajouter-actions">
+                    <a style="text-decoration:none;" href="#"><img src="{{ asset('img/panierAdd.png') }}" alt="Ajouter au panier"></a>&nbsp;
+                    <a style="text-decoration:none;" href="#"><img src="{{ asset('img/coeurAdd.png') }}" alt="Ajouter aux favoris"></a>&nbsp;
                 </div>
             </div>
-        {% endfor %}
+        </div>
+    </div>
+{% endfor %}
 
 {% endblock %}
