@@ -36,21 +36,23 @@ class ProduitController extends AbstractController
     {
         $produit = new Produit();
         $form = $this->createForm(ProduitType::class, $produit);
-       
+    
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            // Persist le produit 
+            // le bundle VichUploader gère automatiquement l'upload de l'image ici
+    
+            // persister  produit
             $manager->persist($produit);
-            // Enregistre les données dans la base de données
+            // enregistrer les donnees dans la bdd
             $manager->flush();
-
+    
             // Message de succès
             $this->addFlash('success', 'Votre produit a bien été ajouté avec succès!');
-
+    
             // Redirection vers la liste des produits ou une autre page
             return $this->redirectToRoute('app_produit');
         }
-
+    
         return $this->render('produit/new.html.twig', [
             'form' => $form->createView(),
         ]);

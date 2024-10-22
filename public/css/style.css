@@ -1,471 +1,398 @@
 
-#container{
-    display: flex;
-    flex-direction: column;
+* {
     margin: 0;
+    padding: 0;
+    font-family: 'Roboto', sans-serif;
+}
+
+html, body {
+    height: 100%; /* Définit la hauteur de l'HTML et du body à 100% */
+}
+/*pour pouvoir fixer le footer en bas meme lorsqu'il n'ya pas de contenue */
+.wrapper {
+    display: flex; /* Utilise flexbox pour le conteneur principal */
+    flex-direction: column; /* Dispose les éléments en colonne */
+    min-height: 100vh; /* Assure que le wrapper prend au moins toute la hauteur de la fenêtre */
+}
+
+/***************************************************************************************************
+
+                                        css de la navbar
+
+
+****************************************************************************************************/
+
+
+/*--------------style du logo et nav----------------------------------------------------*/
+.logo img {
+    width: 70px;
+    height: 40px;
+}
+
+/* Styles pour la barre de navigation */
+.navbar {
+    background-color: #1D1D1D; 
+    padding: 10px; 
+    display: flex; /* flexbox pour l'alignement */
+    justify-content: space-between; /* Espace entre logo/menu et icônes */
+    align-items: center; /* Centre verticalement les éléments */
+}
+
+/* Styles pour le menu principal */
+.menu {
+    display: flex; /* Affichage horizontal des éléments */
+    align-items: center; /* Centre verticalement les éléments */
 }
 
 
-    /* Styles pour l'image de fond */
-    .section-hero {
-        position: relative;
-        width: 100%;
-        height: auto;
-        background-image: url('{{ asset('img/grandeAccueil.jpg') }}');
-        background-size: cover;
-        background-position: center;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: white; /* Pour le texte blanc sur l'arrière-plan sombre */
-        text-align: center; /* Centre le texte */
-    }
-
-    .superposition-hero {
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background-color: rgba(0, 0, 0, 0.5); /* Overlay sombre */
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        flex-direction: column; /* Aligne le contenu verticalement */
-    }
-
-    .titre-principal {
-        font-size: 2.5rem; /* Taille du titre */
-        margin-bottom: 1rem; /* Espacement sous le titre */
-    }
-
-    .texte-principal {
-        font-size: 1.25rem; /* Taille du texte */
-        margin-bottom: 2rem; /* Espacement sous le texte */
-    }
-
-    .btn-principal {
-        background-color: #007bff; /* Couleur primaire */
-        color: white; /* Couleur du texte */
-        padding: 10px 20px; /* Espacement interne */
-        text-decoration: none; /* Pas de soulignement */
-        border-radius: 5px; /* Coins arrondis */
-        transition: background-color 0.3s; /* Effet de transition */
-    }
-
-    .btn-principal:hover {
-        background-color: #0056b3; /* Couleur au survol */
-    }
-
-  
-
-
-    .produits-tendances {
-        display: flex;
-        flex-wrap: wrap; /* Permet d'enrouler les cartes */
-        justify-content: space-between; /* Espace entre les cartes */
-    }
-
-    .carte-produit {
-        border: 1px solid #ddd; /* Bordure de la carte */
-        border-radius: 5px; /* Coins arrondis */
-        margin-bottom: 20px; /* Marge inférieure */
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Ombre légère */
-        transition: transform 0.2s; /* Effet de transition */
-    }
-
-    .carte-produit:hover {
-        transform: translateY(-5px); /* Légère élévation au survol */
-    }
-
-    .image-produit {
-        width: 100%; /* Prend toute la largeur */
-        height: auto; /* Conserve les proportions */
-    }
-
-    .ajouter-panier {
-        display: flex;
-        align-items: center; /* Aligne les icônes verticalement */
-    }
-
-    .ajouter-panier img {
-        width: 30px; /* Largeur des icônes du panier et des favoris */
-        height: auto; /* Conserve les proportions */
-        margin-right: 5px; /* Espace entre les icônes */
-    }
-
-
-
-
-/*///////////////////////////////////////////////////////////////////////////////////////////////////
-/ 
-                               Styles de categories 
-
-////////////////////////////////////////////////////////////////////////////////////*/
-
-.categories-produits {
-    display: flex;
-    justify-content: center; /* Centre les éléments horizontalement */
-    flex-wrap: wrap; /* Permet le passage à la ligne */
-    margin: 20px 0; /* Espace autour de la section */
+/* Styles pour les éléments du menu */
+.menu  li {
+    position: relative; /* Nécessaire pour le positionnement du dropdown */
+    list-style: none;
 }
 
-
-.item img {
-    width: 150px;
-    /* height: 150px; */
-    /* border-radius: 50%; Rendre l'image ronde */
-    /* object-fit: cover; Pour que l'image couvre tout le conteneur */
-    /* transition: transform 0.3s; Pour le zoom de l'image */
+.menu  li  a {
+    color: white; 
+    padding: 10px 15px; 
+    text-decoration: none; /* Supprime le soulignement */
+    font-weight: 400; /* Normal pas en gras */
 }
 
-.categorie-item:hover {
-    transform: scale(1.05); /* Zoom au survol */
+ .menu  li:hover  a {
+    color: #D4AF37; /* Couleur au survol */
+    padding: 10px;
+} 
+
+/*--------------style du menu déroulant----------------------------------------------------*/
+
+/* Styles pour le dropdown */
+.menu-deroulant {
+    display: none; /* Masque le menu-deroulant par défaut */
+    position: absolute; /* Positionne le menu-deroulant par rapport à l'élément parent */
+    background-color: #333; /* Couleur de fond du menu-deroulant */
+    min-width: 160px; /* Largeur minimale */
+    z-index: 1; /* Assure que le menu-deroulant soit au-dessus */
 }
 
-.categorie-item:hover img {
-    transform: scale(1.1); /* Zoom sur l'image au survol */
+/* Affiche le menu-deroulant au survol */
+.menu  li:hover .menu-deroulant {
+    display: block;
 }
 
-.categorie-item span {
-    margin-top: 5px; /* Espace entre l'image et le texte */
-    font-weight: bold; /* Pour mettre en gras le texte */
+/* Styles pour les éléments du menu-deroulant */
+.menu-deroulant li {
+    float: none; /* Affiche les éléments verticalement */
+}
+
+.menu-deroulant li a {
+    padding: 250px 20px; /* Espacement pour les éléments du menu-deroulant */
+    color: white; /* Couleur du texte */
+    text-decoration: none; /* Supprime le soulignement */
+}
+
+.menu-deroulant li a:hover {
+    color: #ffffff; /* Couleur au survol pour le menu-deroulant */
+}
+
+/*--------------style des icones à droites de la nav ----------------------------------------------------*/
+
+.icons-nav {
+    margin-left: auto; /* Pousse les icônes à droite */
+}
+
+.icons-nav img {
+    width: 15px; /* Largeur des icônes */
+    height: auto; 
+   
+}
+
+.icons-nav {
+    display: flex; /* flexbox pour aligner les icônes */
+    margin-left: auto; /* Pousse les icônes à droite */
+}
+
+.icon-item {
+    display: flex; /* flexbox pour chaque icône */
+    flex-direction: column; /* Dispose les éléments en colonne */
+    align-items: center; /* Centre les éléments horizontalement */
+    color: #D4AF37; 
+    text-decoration: none; /* Supprime le soulignement */
+    margin-left: 15px; /* Espace entre les icônes */
+}
+
+.icon-item img {
+    width: 25px; /* Largeur des icônes */
+    height: auto; /* Hauteur automatique pour respecter le ratio */
+    margin-bottom: 5px; /* Espace entre l'icône et le texte */
+}
+
+.icon-item:hover {
+    opacity: 0.7; /* Change l'opacité au survol pour un effet visuel */
+}
+
+/***************************************************************************************************
+
+                                css du Footer
+
+
+****************************************************************************************************/
+
+#conteneur {
+    flex: 1; /* Prend tout l'espace restant */
+}
+.footer {
+    background-color: #1D1D1D; /* Couleur de fond du footer */
+    color: white; /* Couleur du texte */
+    padding: 20px; /* Espacement intérieur */
     text-align: center; /* Centre le texte */
 }
 
-
-
-
-
-
-
-
-
-
-
-
-/*///////////////////////////////////////////////////////////////////////////////////////////////////
-/ 
-                               Styles de base pour la navbar
-
-////////////////////////////////////////////////////////////////////////////////////*/
-
-.navbar {
-    background-color: #343a40; /* Couleur de fond sombre */
-    padding: 0.5rem 1rem; /* Espacement */
+.container-footer {
+    display: flex; /*  flexbox pour l'alignement */
+    justify-content: space-between; /* Espace entre les éléments */
+    align-items: flex-start; /* Aligne les éléments en haut */
+    flex-wrap: wrap; /* Permet le retour à la ligne des éléments sur les écrans plus petits */
+    max-width: 1200px; /* Largeur maximale */
+    margin: 0 auto; /* Centre le conteneur */
 }
 
-/* Logo de la navbar */
-.navbar-brand img {
-    width: 70px; /* Largeur du logo */
-    height: auto; /* Hauteur automatique pour conserver le ratio */
+.conditions, .newsletter, .socials {
+    flex: 1; /* Chaque section prend une part égale de l'espace disponible */
+    min-width: 250px; /* Largeur minimale pour les sections */
+    margin: 10px; /* Espacement autour des sections */
 }
 
-/* Styles pour les liens de la navbar */
-.nav-link {
-    color: #ffffff; /* Couleur du texte blanche */
-    margin: 0 15px;         /* Espacement entre les liens */
-    transition: color 0.3s; /* Transition douce pour les effets de survol */
+h6 {
+    margin-bottom: 10px; /* Espacement sous le titre de la newsletter */
 }
 
-
-
-.card-body {
-    display: flex;
-    flex-direction: row;
-    align-content: stretch;
-    justify-content: space-between;
-    align-items: center;
-}
-
-h1{
-
-    margin-left: 10%;
-    margin-top: 25px;
-    margin-bottom: 25px;
-}
-
-footer{
-    padding: 20px;
-    position: fixed;
-    left: 0;
-    bottom: 0;
-    width: 100%;
-    background-color: #1d1d1d; 
-    color: white;
-    text-align: center;
-    width: 100%;
-    /* height: 300px; */
-    
-    
-}
-
-footer .container {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-evenly;
-    align-items: center;
-}
-
-
-/* Évite les débordements */
-html, body {
-    margin: 0;
-    padding: 0; 
-    width: 100%; 
-    overflow-x: hidden; /* Évite le débordement horizontal */
-}
-
-
-.socials li{
-    list-style: none;
-    display: flex;
-}
-
-.socials ul {
-    display: flex;
-    flex-direction: row;
-    align-content: center;
-    /* justify-content: center; */
-    /* align-items: center; */
-    gap: 3px;
-    margin-right: 10px;
-}
-
-.conditions{
-    text-decoration: none;
-    /* margin: 50px; */
-    display: flex;
-    flex-direction: column;
-}
-
-/* .card_detail-produit {
-    display: flex;
-    flex-direction: row;
-    align-content: stretch;
-    justify-content: space-between;
-    align-items: center;
-}
-.containerDetail{
-    background-color: #1d1d1d;
-} */
-
-/*///////////////////////////////////////////////////////////////////////////////////////////////////
-/ 
-                                CSS DE LA NEWSLETTER 
-
-////////////////////////////////////////////////////////////////////////////////////*/
-.newsletter {
-    margin-top: 20px;
-    display: flex;
-    background-color: #D9D9D9;
-    padding: 40px 100px;
-    border-radius: 15px;
-
-}
-
+/* Styles pour le formulaire de newsletter */
 .newsletter form {
-    display: flex;
+    display: flex; /* Utilise flexbox pour aligner le label, l'input et le bouton */
+    flex-direction: column; /* Dispose les éléments en colonne */
+    align-items: center; /* Centre les éléments horizontalement */
 }
 
-
-
-
-
-/*///////////////////////////////////////////////////////////////////////////////////////////////////
-/ 
-                              CSS  detail produit 
-
-////////////////////////////////////////////////////////////////////////////////////*/
-
-
-.card_detail-produit {
-    display: flex;
-    width: 100%;
-    max-width: 800px;
-    /* border: 1px solid #ccc;
-    border-radius: 5px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); */
-    overflow: hidden;/* Empêche le débordement */
-    margin: 20px;
+.newsletter label {
+    margin-bottom: 5px; /* Espacement sous le label */
 }
 
-.imgDetailProduit {
-    flex: 1;
-    padding: 10px;
+.newsletter input {
+    padding: 10px; /* Espacement intérieur de l'input */
+    border: none; /* Supprime la bordure */
+    border-radius: 5px; /* Arrondi les coins */
+    margin-bottom: 10px; /* Espacement sous l'input */
 }
 
-.imgDetailProduit img {
-    width: 350px;
-    height: 350px; 
-    object-fit: cover; /* Recadre l'image pour remplir le conteneur sans déformation */
-}
-.card-detail {
-    flex: 2;
-    padding: 20px;
+.newsletter button {
+    padding: 10px 15px; /* Espacement intérieur du bouton */
+    background-color: #D4AF37; /* Couleur de fond du bouton */
+    color: white; /* Couleur du texte du bouton */
+    border: none; /* Supprime la bordure */
+    border-radius: 5px; /* Arrondi les coins */
+    cursor: pointer; /* Change le curseur au survol */
 }
 
-.prix-reduit {
+.newsletter button:hover {
+    background-color: #FF7842; /* Couleur au survol du bouton */
+}
+
+/* Styles pour les icônes sociales */
+.socials ul {
+    list-style: none; /* Supprime les puces de la liste */
+    padding: 0; /* Supprime le padding */
+}
+
+.socials li {
+    display: inline; /* Affiche les éléments de la liste en ligne */
+    margin: 0 10px; /* Espacement entre les icônes */
+}
+
+.socials img {
+    width: 30px; /* Largeur des icônes */
+    height: auto; /* Hauteur automatique pour respecter le ratio */
+}
+
+.socials a {
+    color: white; /* Couleur des liens */
+    text-decoration: none; /* Supprime le soulignement des liens */
+}
+
+/***************************************************************************************************
+
+                                css de la page home 
+
+
+***************************************************************************************************/
+
+/* Image Hero - Pleine page */
+.image-hero {
+    position: relative;
+    height: 100vh; /* L'image prend la hauteur totale de l'écran */
+    background: url('../img/grandeAccueil.jpg') no-repeat center center/cover; /* Image centrée et couverte */
+}
+
+.superposition-hero {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.4); /* Superposition sombre */
+}
+
+.contenu-hero {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    color: white;
+}
+
+.contenu-hero h1 {
+    font-size: 3em;
     font-weight: bold;
-    color: #d9534f;
 }
 
-.add-to-cart {
-    margin-top: 20px;
+.contenu-hero p {
+    font-size: 1.5em;
+    margin-bottom: 20px;
 }
 
-.description {
+.btn-primaire {
+    background-color: #f4a261;
+    color: white;
+    padding: 10px 20px;
+    text-decoration: none;
+    font-size: 1.2em;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.btn-primaire:hover {
+    background-color: #e76f51;
+}
+
+/****************************************css des categories rondes ***********************************/
+
+/* Section des catégories - Flexbox */
+.categories-produits {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-wrap: wrap;
+    margin: 20px 0;
+}
+
+.categories-produits .item-categorie {
+    text-align: center;
+    margin: 10px;
+}
+
+.categories-produits img {
+    width: 150px; /* Taille de l'image */
+    height: 150px;
+    object-fit: cover; /* Ajuste l'image à l'intérieur du cercle */
+    border-radius: 50%; /* Forme ronde */
+    transition: transform 0.3s ease; /* Ajout d'une animation pour le hover */
+}
+
+.categories-produits img:hover {
+    transform: scale(1.1); /* Zoom au survol */
+}
+
+.categories-produits span {
+    display: block;
+    margin-top: 10px;
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+.categories-produits a {
+    text-decoration: none; /* Supprime le soulignement */
+    color: inherit; /* Utilise la couleur du parent (hérite de la couleur définie) */
+}
+
+.categories-produits a:hover {
+    color: #D4AF37; 
+}
+
+
+/****************************************css des produits tendences  ***********************************/
+
+/* Section pour aligner les produits en 3 colonnes */
+.tendance-section {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin: 20px 0;
+}
+
+/* Chaque carte produit */
+.card-tendance {
+    flex: 0 0 30%; /* Chaque carte occupe environ 30% de la largeur */
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+    background-color: #fff;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease-in-out;
+}
+
+.card-tendance:hover {
+    transform: scale(1.05); /* Agrandir légèrement la carte au survol */
+}
+
+/* Image dans chaque carte */
+.card-produit img {
     width: 100%;
     height: auto;
-    padding: 10px 20px; 
-    margin: 20px;  
-    border-radius: 15px;
-    color: #1d1d1d; /* Couleur du texte noire */
-    background-color: rgba(217, 217, 217, 0.3); /* Couleur de fond clair avec opacité */
+    display: block;
+    border-bottom: 1px solid #ddd;
 }
 
-.commentaires-detailProduit{
-    margin: 10px;
-    padding: 10px ;
-    width: 100%;
-    /* border: 1px solid #ccc; */
-    border-radius: 5px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); 
-}
-.commentaire{
-    margin: 10px;
+/* Contenu de la carte */
+.contenu-card {
     padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-}
-
-.add-to-cart {
-    display: flex; /* Utilisation de flexbox pour aligner les boutons */
-    gap: 10px; /* Espacement entre les boutons */
-}
-
-.btnDetailProduit-panier {
-    background-color: #D4AF37;
-    color: #1d1d1d;
-    border-radius: 5px;
-    padding: 10px 15px; 
-    text-decoration: none; /* Suppression du soulignement */
-    font-weight: bold; /* Texte en gras */
-    
-}
-
-.btnDetailProduit-favoris {
-    background-color: transparent; /* Fond transparent pour les favoris */
-    border: 2px solid #D4AF37; 
-    border-radius: 5px; 
-    padding: 10px 15px; 
-    color: #D4AF37; 
-    text-decoration: none; /* Suppression du soulignement */
-    font-weight: bold;
-    display: flex; /* Afficher en flex pour centrer le contenu */
-    align-items: center; /* Centrage vertical */
-}
-
-.btnDetailProduit-favoris img {
-    width: 20px; 
-    height: auto; /* Conserver l'aspect ratio */
-    margin-right: 5px; /* Espacement entre l'image coeur et le texte */
-}
-
-
-/*///////////////////////////////////////////////////////////////////////////////////////////////////
-/ 
-                              CSS  categories en haut de page
-
-////////////////////////////////////////////////////////////////////////////////////*/
-
-
-.categories {
-    display: flex;
-    justify-content: center;
-    gap: 100px;
-    padding: 20px;
-}
-
-.category-item {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-decoration: none;
-    color: #000; /* Couleur du texte */
-}
-
-.category-item img {
-    width: 120px;
-    height: 120px;
-    border-radius: 50%; /* Rendre les images rondes comme maquette */
-    object-fit: cover; /* Maintenir le ratio de l'image */
-    transition: transform 0.3s ease; /* Animation au survol */
-}
-
-.category-item img:hover {
-    transform: scale(1.1); /* Agrandit légèrement l'image au survol */
-}
-
-.category-item span {
-    margin-top: 10px;
-    font-size: 14px;
     text-align: center;
+}
+
+.titre-produit a {
+    text-decoration: none;
+    font-size: 1.2em;
+    color: #333;
     font-weight: bold;
 }
 
-
-.img-accueil{
-    width: 100%;
-    height: 300px;
+.texte-produit {
+    margin: 10px 0;
+    color: #777;
 }
 
-/*///////////////////////////////////////////////////////////////////////////////////////////////////
-/ 
-                              CSS  page d'acceuil image 
+/* Actions sous la carte (panier, favoris) */
+.ajouter-actions {
+    margin-top: 10px;
+}
 
-////////////////////////////////////////////////////////////////////////////////////*/
-
-/* .hero-image {
-    position: relative;
-    width: 100%;
-    height: 500px;
-    background-image: url('{{ asset('img/grandeAccueil.jpg') }}');
-    background-size: cover;
-    background-position: center;
-    
-} */
-
-
-.tendances-accueil{
-    display: flex;
+.ajouter-actions img {
+    width: 24px;
+    height: auto;
 }
 
 
+/*******************responsive design ****************************************************/
 
-/*///////////////////////////////////////////////////////////////////////////////////////////////////
-/ 
-                              CSS  mon profile
-
-////////////////////////////////////////////////////////////////////////////////////*/
-
-
-body .profile-info {
-    margin-bottom: 20px;
-    padding: 15px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    /* background-color: #dd1010 !important; */
+/* Pour rendre la disposition responsive */
+@media (max-width: 768px) {
+    .card-tendance {
+        flex: 0 0 45%; /* 2 cartes par ligne sur tablette */
+    }
 }
 
-ul {
-    list-style-type: none; /* Supprime les puces */
-    padding: 0; /* Supprime le remplissage par défaut */
-}
-
-.cardFavoris{
-    
-    border: 2px solid rgba(212, 175, 55, 0.95); /*border jaune pour mes favoris 
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);*/
-
+@media (max-width: 576px) {
+    .card-tendance {
+        flex: 0 0 100%; /* 1 carte par ligne sur mobile */
+    }
 }

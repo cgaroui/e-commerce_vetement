@@ -22,8 +22,8 @@ class Produit
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column]
-    private ?int $prix = null;
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    private ?string $prix = null;
 
     #[ORM\Column(length: 50)]
     private ?string $nom = null;
@@ -40,8 +40,7 @@ class Produit
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $description = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $image = null;
+  
 
     #[ORM\Column(nullable: true)]
     private ?int $reduction = null;
@@ -109,12 +108,12 @@ class Produit
         return $this->id;
     }
 
-    public function getPrix(): ?int
+    public function getPrix(): ?string
     {
         return $this->prix;
     }
 
-    public function setPrix(int $prix): static
+    public function setPrix(string $prix): self
     {
         $this->prix = $prix;
         return $this;
@@ -178,16 +177,7 @@ class Produit
         return $this;
     }
 
-    public function getImage(): ?string
-    {
-        return $this->image;
-    }
 
-    public function setImage(string $image): static
-    {
-        $this->image = $image;
-        return $this;
-    }
 
     public function getReduction(): ?int
     {

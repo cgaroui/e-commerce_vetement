@@ -13,16 +13,9 @@
         </div>
     </div>
 </div>
-<style>
-    .image-hero {
-        position: relative;
-        width: 100%;
-        height: 500px;
-        background-image: url('{{ asset('img/grandeAccueil.jpg') }}');
-        background-size: cover;
-        background-position: center;
-    }
-</style>
+
+        {# <img src="{{ asset('img/grandeAccueil.jpg') }}" alt="chogan accueil">; #}
+
 
 <div class="categories-produits">
     <a href="{{ path('produits_par_categorie', { id: 1 }) }}" class="item">
@@ -49,31 +42,32 @@
 
 <strong><p>Tendance</p></strong><br>
 
-{% for produit in produits %}
-    <div class="col-md-4 mb-4 tendance-accueil">
-        <div class="carte-produit h-100">
-            <img src="{{ produit.image }}" class="image-produit" alt="Image de {{ produit.nom }}">
-            <div class="corps-carte">
+<div class="tendance-section">
+    {% for produit in produits %}
+        <div class="card-tendance">
+            <div class="card-produit">
+                <img src="{{ asset('img/' ~ produit.imageName) }}" class="image-produit" alt="Image de {{ produit.nom }}">
+                <div class="contenu-card">
+                    <div class="text-produit">
+                        <h5 class="titre-produit"><a href="{{ path('produit_detail', {'id': produit.id}) }}">{{ produit.nom }}</a></h5>
+                        {% if produit.reduction %}
+                            <p class="texte-produit">
+                                <span>{{ produit.prix }} €</span><br>
+                                <span>{{ produit.prix - (produit.prix * produit.reduction / 100) }} €</span>
+                                <span>{{ produit.reduction }}% de réduction</span>
+                            </p>
+                        {% endif %}
+                    </div>
 
-                <div class="nom-produit">
-                    <h5 class="titre-produit"><a href="{{ path('produit_detail', {'id': produit.id}) }}">{{ produit.nom }}</a></h5>
-                    {% if produit.reduction %}
-                        <p class="texte-produit">
-                            <span style="text-decoration: line-through;">{{ produit.prix }} €</span><br>
-                            <span style="font-weight: bold;">{{ produit.prix - (produit.prix * produit.reduction / 100) }} €</span>
-                            <span class="badge bg-success">{{ produit.reduction }}% de réduction</span>
-                        </p>
-                    {% endif %}
-                    <p class="texte-produit">{{ produit.prix }} €</p>
-                </div>
-
-                <div class="ajouter-actions">
-                    <a style="text-decoration:none;" href="#"><img src="{{ asset('img/panierAdd.png') }}" alt="Ajouter au panier"></a>&nbsp;
-                    <a style="text-decoration:none;" href="#"><img src="{{ asset('img/coeurAdd.png') }}" alt="Ajouter aux favoris"></a>&nbsp;
+                    <div class="ajouter-actions">
+                        <a href="#"><img src="{{ asset('img/panierAdd.png') }}" alt="Ajouter au panier"></a>&nbsp;
+                        <a href="#"><img src="{{ asset('img/coeurAdd.png') }}" alt="Ajouter aux favoris"></a>&nbsp;
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-{% endfor %}
+    {% endfor %}
+</div>
+
 
 {% endblock %}

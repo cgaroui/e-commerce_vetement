@@ -38,10 +38,11 @@
                     {{ form_errors(form.description) }}
                 </div>
 
+                {# Champ d'upload de l'image #}
                 <div class="mb-3">
-                    {{ form_label(form.image) }}
-                    {{ form_widget(form.image, {'attr': {'class': 'form-control'}}) }}
-                    {{ form_errors(form.image) }}
+                    {{ form_label(form.imageFile, 'Image du produit') }}
+                    {{ form_widget(form.imageFile, {'attr': {'class': 'form-control'}}) }}
+                    {{ form_errors(form.imageFile) }}
                 </div>
 
                 <div class="mb-3">

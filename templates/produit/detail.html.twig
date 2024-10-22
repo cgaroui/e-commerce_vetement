@@ -43,7 +43,7 @@
     <div class="detailProduit mt-4">
         <div class="card_detail-produit">
             <div class="imgDetailProduit">
-                <img src="{{ produit.image }}" class="card-img-top" alt="Image de {{ produit.nom }}">
+                <img src="{{ asset('img/' ~ produit.imageName) }}" class="card-img-top" alt="Image de {{ produit.nom }}">
             </div>
             <div class="card-detail">
                 <h1>{{ produit.nom }}</h1>

@@ -11,8 +11,8 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 
 class ProduitType extends AbstractType
@@ -21,9 +21,13 @@ class ProduitType extends AbstractType
     {
         $builder
             // Champ prix avec validation
-            ->add('prix', MoneyType::class, [
+            ->add('prix', NumberType::class, [
                 'label' => 'Prix',
-                'currency' => 'EUR', // Par défaut en euros
+                'html5' => true, // Active la validation HTML5 pour tester les décimales
+                'attr' => [
+                    'step' => '0.01',
+                    'min' => 0,
+                ],
                 'constraints' => [
                     new Assert\Positive([
                         'message' => 'Le prix doit être positif.'
@@ -35,12 +39,9 @@ class ProduitType extends AbstractType
                 ]
             ])
             
-            // Champ nom avec des contraintes de longueur et d'existence obligatoire 
+            // Champ nom avec des contraintes de longueur et d'existence obligatoire
             ->add('nom', TextType::class, [
                 'label' => 'Nom du produit',
-                'attr' => [
-                    'minlength' => 2
-                ],
                 'constraints' => [
                     new Assert\Length(['min' => 2]),
                     new Assert\NotBlank([
@@ -49,59 +50,51 @@ class ProduitType extends AbstractType
                 ]
             ])
             
-            // Champ description obligatoire pour preciser les note de tete de fond du parfum ou composition autres produits 
+            // Champ description (non obligatoire, mais contrainte si rempli)
             ->add('description', TextType::class, [
                 'label' => 'Description',
-                'required' => false,
-                'constraints' => [
-                    new Assert\NotBlank([
-                        'message' => 'La description est obligatoire.'
-                    ])
-                ]
+                'required' => false, // Facultatif
             ])
             
-            // Champ image, gestion du fichier (non mappé à l'entité)
-            ->add('image', FileType::class, [
+            // Champ image, gestion du fichier
+            ->add('imageFile', FileType::class, [
                 'label' => 'Image du produit',
                 'required' => false,
                 'constraints' => [
                     new Assert\Image([
                         'mimeTypesMessage' => 'Veuillez uploader une image valide (JPG, PNG, etc.).'
                     ])
-                    ],
-                'data_class' => null,
+                ],
+                'data_class' => null, // Pour permettre l'upload de fichiers
             ])
             
-            // Champ réduction optionnel avec une contrainte pour s'assurer qu'il est positif et raisonnable
+            // Champ réduction optionnel avec contrainte de validité
             ->add('reduction', IntegerType::class, [
                 'label' => 'Réduction (%)',
                 'required' => false,
                 'constraints' => [
                     new Assert\Positive([
-                        'message' => 'Le prix doit être positif.'
+                        'message' => 'La réduction doit être positive.'
                     ]),
                     new Assert\LessThanOrEqual([
                         'value' => 100,
                         'message' => 'La réduction ne peut pas dépasser 100%.'
                     ])
-                    ],
-                    'data_class' => null,
+                ]
             ])
-                
-                    
-                    // Nouveau champ de catégories sous forme de selecteur
-                    ->add('nom', TextType::class)
-                    ->add('prix', IntegerType::class)
-                    ->add('categorie', EntityType::class, [
-                        'class' => Categorie::class,
-                        'choice_label' => 'nom', // Supposons que 'nom' est un champ de votre entité Categorie
-                    ]);
-            }
-        
-            public function configureOptions(OptionsResolver $resolver): void
-            {
-                $resolver->setDefaults([
-                    'data_class' => Produit::class,
-                ]);  
-            }
-        }
+            
+            // Champ catégorie sous forme de sélection
+            ->add('categorie', EntityType::class, [
+                'class' => Categorie::class,
+                'choice_label' => 'nom', // Le champ 'nom' de l'entité Categorie est affiché
+                'label' => 'Catégorie',
+            ]);
+    }
+
+    public function configureOptions(OptionsResolver $resolver): void
+    {
+        $resolver->setDefaults([
+            'data_class' => Produit::class,
+        ]);  
+    }
+}
