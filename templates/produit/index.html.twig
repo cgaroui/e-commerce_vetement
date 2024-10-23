@@ -6,74 +6,74 @@
 
 
 
-<div class="categories">
-    <a href="{{ path('produits_par_categorie', { id: 1 }) }}" class="categorie-item">
-        <img src="{{ asset('img/parfum.jpg') }}" alt="Parfum">
-        <span>Parfum</span>
-    </a>
-    <a href="{{ path('produits_par_categorie', { id: 2 }) }}" class="categorie-item">
-        <img src="{{ asset('img/cheveux.jpg') }}" alt="Soins cheveux">
-        <span>Soins cheveux</span>
-    </a>
-    <a href="{{ path('produits_par_categorie', { id: 3 }) }}" class="categorie-item">
-        <img src="{{ asset('img/visage.jpg') }}" alt="Soins visage">
-        <span>Soins visage</span>
-    </a>
-    <a href="{{ path('produits_par_categorie', { id: 4 }) }}" class="categorie-item">
-        <img src="{{ asset('img/solaire.jpg') }}" alt="Solaire">
-        <span>Solaire</span>
-    </a>
-    <a href="{{ path('produits_par_categorie', { id: 5 }) }}" class="categorie-item">
-        <img src="{{ asset('img/maquillage.jpg') }}" alt="Maquillage">
-        <span>Maquillage</span>
-    </a>
-</div>
+<h1> Produits </h1>
 
 
-<h1>Liste produits </h1>
 
-<div class="container mt-4">
-    <div class="row">
-        {% for produit in produits %}
-            <div class="col-md-4 mb-4">
-                <div class="card h-100">
-                    
-                    <img src="{{ asset('img/' ~ produit.imageName) }}" class="card-img-top" alt="Image de {{ produit.nom }}">
-                    
-                    <div class="card-body">
+    <div class="conteneur conteneur-principal"> 
 
-                        <div class="nomProduit">
-                            <h5 class="card-title"><a href="{{ path('produit_detail', {'id': produit.id}) }}">{{ produit.nom }}</a></h5>
-                            {% if produit.reduction %}
-                            <p class="card-text">
-                                <span style="text-decoration: line-through;">{{ produit.prix }} €</span><br>
-                                <span style="font-weight: bold; ">{{ produit.prix - (produit.prix * produit.reduction / 100) }} €</span>
-                                <span class="badge bg-success">{{ produit.reduction }}% de réduction</span>
-                            </p>
-                    
-                        {% endif %}
+        <div class="categories-produits">
+            <a href="{{ path('produits_par_categorie', { id: 1 }) }}" class="item">
+                <img src="{{ asset('img/parfum.jpg') }}" alt="Parfum">
+                <span>Parfum</span>
+            </a>
+            <a href="{{ path('produits_par_categorie', { id: 2 }) }}" class="item-categorie">
+                <img src="{{ asset('img/cheveux.jpg') }}" alt="Soins cheveux">
+                <span>Soins cheveux</span>
+            </a>
+            <a href="{{ path('produits_par_categorie', { id: 3 }) }}" class="item-categorie">
+                <img src="{{ asset('img/visage.jpg') }}" alt="Soins visage">
+                <span>Soins visage</span>
+            </a>
+            <a href="{{ path('produits_par_categorie', { id: 4 }) }}" class="item-categorie">
+                <img src="{{ asset('img/solaire.jpg') }}" alt="solaire">
+                <span>Solaire</span>
+            </a>
+            <a href="{{ path('produits_par_categorie', { id: 5 }) }}" class="item-categorie">
+                <img src="{{ asset('img/maquillage.jpg') }}" alt="Maquillage">
+                <span>Maquillage</span>
+            </a>
+        </div>
+    
+        <h4>Tendance</h4>
+    
+        <div class="tendance-section">
+            {% for produit in produits %}
+                <div class="card-tendance">
+                    <div class="card-produit">
+                        <img src="{{ asset('img/' ~ produit.imageName) }}" class="image-produit" alt="Image de {{ produit.nom }}">
+                        <div class="contenu-card">
+                            <div class="text-produit">
+                                <h5 class="titre-produit"><a href="{{ path('produit_detail', {'id': produit.id}) }}">{{ produit.nom }}</a></h5>
+                                {% if produit.reduction %}
+                                    <p class="texte-produit">
+                                        <span class="prix-original">{{ produit.prix }} €</span>
+                                        <span class="prix-reduit">{{ (produit.prix - (produit.prix * produit.reduction / 100)) | number_format(2, '.', ',') }} €</span>                                    <span class="badge-reduction">{{ produit.reduction }}% de réduction</span>
+                                    </p>
+                                {% else %}
+                                    <p class="texte-produit">{{ produit.prix }} €</p>
+                                {% endif %}
+                            </div>
+    
+                            <div class="ajouter-actions">
+                                <a href="{{path('ajout_panier', {id : produit.id})}}"><img src="{{ asset('img/panierAdd.png') }}" alt="Ajouter au panier"></a>&nbsp;
+                                <a href="{{ path('ajout_favoris', {produitId: produit.id})}}"><img src="{{ asset('img/coeurAdd.png') }}" alt="Ajouter aux favoris"></a>&nbsp;
+                            </div>
                         </div>
-
-                        <div class="add">
-                            <a style="text-decoration:none;" href="{{path('ajout_panier',{id: produit.id})}}"> <img src=" {{ asset('img/panierAdd.png') }} " alt="PanierAdd"> </a>&nbsp;
-                            <a style="text-decoration:none;" href="{{path('ajout_favoris',{produitId: produit.id})}}"> <img src="{{ asset('img/coeurAdd.png') }}" alt="favoris"> </a>&nbsp;
-                         </div>
-{# 
-                        <div class="adminAcces">
-                            <a href="{{ path('edit_produit', { id: produit.id }) }}" class="btn btn-primary">Modifier</a>
-                            <form method="post" action="{{ path('supprimer_produit', {id: produit.id}) }}" onsubmit="return confirm('Voulez-vous vraiment supprimer ce produit ?');">
-                                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ produit.id) }}">
-                                <button class="btn btn-danger">Supprimer</button>
-                            </form>
-                        </div> #}
-                     
-                       
-                        
                     </div>
                 </div>
-            </div>
-        {% endfor %}
-    </div>
+            {% endfor %}
+        </div>
+    
+    </div>   
+{#}
+<div class="adminAcces">
+    <a href="{{ path('edit_produit', { id: produit.id }) }}" class="btn btn-primary">Modifier</a>
+    <form method="post" action="{{ path('supprimer_produit', {id: produit.id}) }}" onsubmit="return confirm('Voulez-vous vraiment supprimer ce produit ?');">
+        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ produit.id) }}">
+        <button class="btn btn-danger">Supprimer</button>
+    </form>
+</div> #}
     <div class= "pagination">
         {{ knp_pagination_render(produits) }}
     </div>

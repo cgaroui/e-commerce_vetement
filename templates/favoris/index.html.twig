@@ -12,8 +12,8 @@
         {% for favori in favoris %}
             <div class="col-md-4 mb-4  ">
                 <div class="card h-100 cardFavoris">
-                    <img src="{{ favori.produit.image }}" class="card-img-top" alt="Image de {{ favori.produit.nom }}">
-
+                    <img src="{{ asset('img/' ~ produit.imageName) }}" class="card-img-top" alt="Image de {{ favori.produit.nom }}">
+                    
                     <div class="card-body ">
                         <h5 class="card-title">
                             <a href="{{ path('produit_detail', {'id': favori.produit.id}) }}">

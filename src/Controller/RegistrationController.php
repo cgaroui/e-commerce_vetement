@@ -10,6 +10,7 @@ use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Address;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
@@ -22,7 +23,7 @@ class RegistrationController extends AbstractController
     {
     }
     #[Route('/register', name: 'app_register')]
-    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager): Response
+    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager, MailerInterface $mailer): Response
     {
         $user = new User();
         $form = $this->createForm(RegistrationFormType::class, $user);
@@ -53,21 +54,22 @@ class RegistrationController extends AbstractController
             $entityManager->persist($user);
             $entityManager->flush();
     
-            // Générer une URL signée et envoyer l'email de confirmation
-            $this->emailVerifier->sendEmailConfirmation('app_verify_email', $user,
-                (new TemplatedEmail())
-                    ->from(new Address('exemple@mail.com', 'Service client Acme'))
-                    ->to((string) $user->getEmail()) // Adresse email du nouvel utilisateur
-                    ->subject('Please Confirm your Email')
-                    ->htmlTemplate('registration/confirmation_email.html.twig')
-            );
-    
-            // Ajouter un message flash et rediriger
-            $this->addFlash('success', 'Registration successful! Please check your email to confirm your account.');
-    
+            // // Envoyer l'email de confirmation
+            // $email = (new Email())
+            //     ->from('no-reply@yourdomain.com')
+            //     ->to($user->getEmail()) // Récupère l'email depuis l'utilisateur
+            //     ->subject('Confirmation de votre inscription')
+            //     ->html('<p>Merci de vous être inscrit. Veuillez cliquer sur le lien pour confirmer votre adresse email.</p>
+            //             <p><a href="https://yourdomain.com/confirm?token=' . $token . '">Confirmer mon adresse email</a></p>');
+            
+            // $mailer->send($email);
+
+
+            // Redirection ou message de confirmation
+            $this->addFlash('success', 'Un email de confirmation vous a été envoyé.');
             return $this->redirectToRoute('app_home');
         }
-    
+
         return $this->render('registration/register.html.twig', [
             'registrationForm' => $form->createView(),
         ]);

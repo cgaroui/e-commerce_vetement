@@ -3,61 +3,38 @@
 {% block title %}Hello PanierController!{% endblock %}
 
 {% block body %}
-    <div class="container">
-        <section class="row">
-            <div class="col-12">
-                <h1>Panier</h1>
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>Produit</th>
-                            <th>prix</th>
-                            <th>quantité</th>
-                            <th>Total</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
+<div class="conteneur-principal">
+    <section>
+        <h1>Panier</h1>
 
-                        {% for element in data %}
-                        <tr>
-                            <td><a href="{{path('produit_detail',{id: element.produit.id})}}">{{ element.produit.nom }}</a></td>
-                            
-                            {# Prix unitaire déjà calculé dans le contrôleur (réduction incluse s'il y en a) #}
-                            <td>{{ element.prixUnitaire|number_format(2, '.', ',') }} €</td>
-                            
-                            <td>{{ element.quantite }}</td>
-                    
-                            {# Total pour cet article = prix unitaire * quantité #}
-                            <td>{{ (element.prixUnitaire * element.quantite)|number_format(2, '.', ',') }} €</td>
-                    
-                            <td>
-                                <a href="{{ path('ajout_panier', { id: element.produit.id }) }}" class="btn btn-light">+</a>
-                                <a href="{{ path('retirer_du_panier', { id: element.produit.id }) }}" class="btn btn-light">-</a>
-                                <a href="{{ path('supprimer_du_panier', { id: element.produit.id }) }}" class="btn btn-danger">Supprimer</a>
-                            </td>
-                        </tr>
-                    {% else %}
-                        <tr>
-                            <td colspan="3">Votre panier est vide</td>
-                        </tr>
-                    {% endfor %}
-                    
-                    
-                    </tbody>
-                    <tfoot>
-                        <tr>
-                            <td colspan="3">Total</td>
-                            <td>{{ total }} €</td>
-                            <td>
-                                <a href="{{ path('vider_panier')}}" class="btn btn-danger">Vider panier</a>
-                            </td>
-
-                        </tr>
-                    </tfoot>
-                </table>
-                <a href="{{path('ajout_commande')}}" class="btn btn-dark">Valider le panier</a>
+        {% if data is empty %}
+            <p>Votre panier est vide</p>
+        {% else %}
+            <div class="panier-cards">
+                {% for element in data %}
+                <div class="produit-card">
+                    <img src="{{ asset('img/' ~ element.produit.imageName) }}" alt="{{ element.produit.nom }}" class="produit-image">
+                    <div class="produit-info">
+                        <h2><a href="{{ path('produit_detail', {id: element.produit.id}) }}">{{ element.produit.nom }}</a></h2>
+                        <p>Prix unitaire : <span class="prix">{{ element.prixUnitaire|number_format(2, '.', ',') }} €</span></p>
+                        <p>Quantité : <span class="quantite">{{ element.quantite }}</span></p>
+                        <p>Total : <span class="total">{{ (element.prixUnitaire * element.quantite)|number_format(2, '.', ',') }} €</span></p>
+                        <div class="actions">
+                            <a href="{{ path('ajout_panier', { id: element.produit.id }) }}" class="btn">+</a>
+                            <a href="{{ path('retirer_du_panier', { id: element.produit.id }) }}" class="btn">-</a>
+                            <a href="{{ path('supprimer_du_panier', { id: element.produit.id }) }}" class="btn ">Supprimer</a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
             </div>
-        </section>
-    </div>
+        {% endif %}
+
+        <div class="total-panier">
+            <p>Total du panier : <strong>{{ total }} €</strong></p>
+            <a href="{{ path('vider_panier') }}" class="btn btn-danger">Vider le panier</a>
+            <a href="{{ path('ajout_commande') }}" class="btn btn-dark">Valider le panier</a>
+        </div>
+    </section>
+</div>
 {% endblock %}

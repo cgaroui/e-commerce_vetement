@@ -7,67 +7,111 @@
 <div class="image-hero">
     <div class="superposition-hero">
         <div class="contenu-hero">
-            <h1>Bienvenue sur notre site de cosmétiques</h1>
-            <p>Découvrez nos produits exceptionnels et offrez-vous un moment de beauté</p>
-            <a href="{{ path('app_login') }}" class="btn btn-primaire">Se connecter</a>
+            <h1>Plongez dans l'univers des fragrances Chogan</h1>
+            <p>Découvrez nos parfums haut de gamme et produits de bien-être, alliant élégance et naturel.</p>
+            <a href="{{ path('app_login') }}" class="btn-login ">Se connecter</a>
         </div>
     </div>
 </div>
 
-        {# <img src="{{ asset('img/grandeAccueil.jpg') }}" alt="chogan accueil">; #}
+<div class="conteneur conteneur-principal"> 
 
+    <div class="categories-produits">
+        <a href="{{ path('produits_par_categorie', { id: 1 }) }}" class="item">
+            <img src="{{ asset('img/parfum.jpg') }}" alt="Parfum">
+            <span>Parfum</span>
+        </a>
+        <a href="{{ path('produits_par_categorie', { id: 2 }) }}" class="item-categorie">
+            <img src="{{ asset('img/cheveux.jpg') }}" alt="Soins cheveux">
+            <span>Soins cheveux</span>
+        </a>
+        <a href="{{ path('produits_par_categorie', { id: 3 }) }}" class="item-categorie">
+            <img src="{{ asset('img/visage.jpg') }}" alt="Soins visage">
+            <span>Soins visage</span>
+        </a>
+        <a href="{{ path('produits_par_categorie', { id: 4 }) }}" class="item-categorie">
+            <img src="{{ asset('img/solaire.jpg') }}" alt="solaire">
+            <span>Solaire</span>
+        </a>
+        <a href="{{ path('produits_par_categorie', { id: 5 }) }}" class="item-categorie">
+            <img src="{{ asset('img/maquillage.jpg') }}" alt="Maquillage">
+            <span>Maquillage</span>
+        </a>
+    </div>
 
-<div class="categories-produits">
-    <a href="{{ path('produits_par_categorie', { id: 1 }) }}" class="item">
-        <img src="{{ asset('img/parfum.jpg') }}" alt="Parfum">
-        <span>Parfum</span>
-    </a>
-    <a href="{{ path('produits_par_categorie', { id: 2 }) }}" class="item-categorie">
-        <img src="{{ asset('img/cheveux.jpg') }}" alt="Soins cheveux">
-        <span>Soins cheveux</span>
-    </a>
-    <a href="{{ path('produits_par_categorie', { id: 3 }) }}" class="item-categorie">
-        <img src="{{ asset('img/visage.jpg') }}" alt="Soins visage">
-        <span>Soins visage</span>
-    </a>
-    <a href="{{ path('produits_par_categorie', { id: 4 }) }}" class="item-categorie">
-        <img src="{{ asset('img/solaire.jpg') }}" alt="solaire">
-        <span>Solaire</span>
-    </a>
-    <a href="{{ path('produits_par_categorie', { id: 5 }) }}" class="item-categorie">
-        <img src="{{ asset('img/maquillage.jpg') }}" alt="Maquillage">
-        <span>Maquillage</span>
-    </a>
-</div>
+    <h4>Tendance</h4>
 
-<strong><p>Tendance</p></strong><br>
+    <div class="tendance-section">
+        {% for produit in produits %}
+            <div class="card-tendance">
+                <div class="card-produit">
+                    <img src="{{ asset('img/' ~ produit.imageName) }}" class="image-produit" alt="Image de {{ produit.nom }}">
+                    <div class="contenu-card">
+                        <div class="text-produit">
+                            <h5 class="titre-produit"><a href="{{ path('produit_detail', {'id': produit.id}) }}">{{ produit.nom }}</a></h5>
+                            {% if produit.reduction %}
+                                <p class="texte-produit">
+                                    <span class="prix-original">{{ produit.prix }} €</span>
+                                    <span class="prix-reduit">{{ (produit.prix - (produit.prix * produit.reduction / 100)) | number_format(2, '.', ',') }} €</span>                                    <span class="badge-reduction">{{ produit.reduction }}% de réduction</span>
+                                </p>
+                            {% else %}
+                                <p class="texte-produit">{{ produit.prix }} €</p>
+                            {% endif %}
+                        </div>
 
-<div class="tendance-section">
-    {% for produit in produits %}
-        <div class="card-tendance">
-            <div class="card-produit">
-                <img src="{{ asset('img/' ~ produit.imageName) }}" class="image-produit" alt="Image de {{ produit.nom }}">
-                <div class="contenu-card">
-                    <div class="text-produit">
-                        <h5 class="titre-produit"><a href="{{ path('produit_detail', {'id': produit.id}) }}">{{ produit.nom }}</a></h5>
-                        {% if produit.reduction %}
-                            <p class="texte-produit">
-                                <span>{{ produit.prix }} €</span><br>
-                                <span>{{ produit.prix - (produit.prix * produit.reduction / 100) }} €</span>
-                                <span>{{ produit.reduction }}% de réduction</span>
-                            </p>
-                        {% endif %}
-                    </div>
-
-                    <div class="ajouter-actions">
-                        <a href="#"><img src="{{ asset('img/panierAdd.png') }}" alt="Ajouter au panier"></a>&nbsp;
-                        <a href="#"><img src="{{ asset('img/coeurAdd.png') }}" alt="Ajouter aux favoris"></a>&nbsp;
+                        <div class="ajouter-actions">
+                            <a href="{{path('ajout_panier', {id : produit.id})}}"><img src="{{ asset('img/panierAdd.png') }}" alt="Ajouter au panier"></a>&nbsp;
+                            <a href="{{ path('ajout_favoris', {produitId: produit.id})}}"><img src="{{ asset('img/coeurAdd.png') }}" alt="Ajouter aux favoris"></a>&nbsp;
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    {% endfor %}
+        {% endfor %}
+    </div>
+
+</div>   
+<div class="section-respiration">
+    <img src="{{ asset('img/chogan2.jpg') }}" alt="Moment de détente" class="image-respiration">
+    <div class="text-chogan">
+        <h2>Chogan : L'excellence à l'italienne</h2>
+        <p>Plongez dans l'univers envoûtant des parfums Chogan, conçus avec un savoir-faire italien exceptionnel. Inspirés des plus grandes marques, nos parfums sont concentrés à 30%, garantissant une tenue longue durée pour vous accompagner tout au long de la journée. Chaque fragrance est une expérience sensorielle unique, alliant élégance et qualité grâce à des essences naturelles soigneusement sélectionnées. Offrez-vous un moment d'évasion et laissez-vous transporter par des notes olfactives riches et captivantes, tout en profitant de produits bio et respectueux de l'environnement.</p>
+    </div>
 </div>
 
 
+<div class="conteneur-principal"> 
+    <h4>Parfums Luxury</h4>
+    <div class="tendance-section">
+        {% for produit in produits %}
+            <div class="card-tendance">
+                <div class="card-produit">
+                    <img src="{{ asset('img/' ~ produit.imageName) }}" class="image-produit" alt="Image de {{ produit.nom }}">
+                    <div class="contenu-card">
+                        <div class="text-produit">
+                            <h5 class="titre-produit"><a href="{{ path('produit_detail', {'id': produit.id}) }}">{{ produit.nom }}</a></h5>
+                            {% if produit.reduction %}
+                                <p class="texte-produit">
+                                    <span class="prix-original">{{ produit.prix }} €</span>
+                                    <span class="prix-reduit">{{ (produit.prix - (produit.prix * produit.reduction / 100)) | number_format(2, '.', ',') }} €</span>                                    <span class="badge-reduction">{{ produit.reduction }}% de réduction</span>
+                                </p>
+                            {% else %}
+                                <p class="texte-produit">{{ produit.prix }} €</p>
+                            {% endif %}
+                        </div>
+
+                        <div class="ajouter-actions">
+                            <a href="{{path('ajout_panier', {id : produit.id})}}"><img src="{{ asset('img/panierAdd.png') }}" alt="Ajouter au panier"></a>&nbsp;
+                            <a href="{{ path('ajout_favoris', {produitId: produit.id})}}"><img src="{{ asset('img/coeurAdd.png') }}" alt="Ajouter aux favoris"></a>&nbsp;
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+<div class="block-info">
+    <div class="livraison">
+
+    </div>
+</div>
 {% endblock %}

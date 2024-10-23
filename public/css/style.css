@@ -15,6 +15,8 @@ html, body {
     min-height: 100vh; /* Assure que le wrapper prend au moins toute la hauteur de la fenêtre */
 }
 
+
+
 /***************************************************************************************************
 
                                         css de la navbar
@@ -139,6 +141,7 @@ html, body {
 
 #conteneur {
     flex: 1; /* Prend tout l'espace restant */
+
 }
 .footer {
     background-color: #1D1D1D; /* Couleur de fond du footer */
@@ -224,7 +227,9 @@ h6 {
 
 
 ***************************************************************************************************/
-
+.conteneur-principal{
+    padding: 0 15%;
+}
 /* Image Hero - Pleine page */
 .image-hero {
     position: relative;
@@ -283,6 +288,7 @@ h6 {
     align-items: center;
     flex-wrap: wrap;
     margin: 20px 0;
+    margin-bottom: 100px;
 }
 
 .categories-produits .item-categorie {
@@ -348,7 +354,7 @@ h6 {
 /* Image dans chaque carte */
 .card-produit img {
     width: 100%;
-    height: auto;
+    max-height: 300px;
     display: block;
     border-bottom: 1px solid #ddd;
 }
@@ -381,6 +387,204 @@ h6 {
     height: auto;
 }
 
+/* Style du prix avant réduction (barré) */
+.prix-original {
+    color: #888; /* Couleur plus claire */
+    text-decoration: line-through; /* Barré */
+    font-size: 0.9em; /* Taille légèrement plus petite */
+}
+
+/* Style du prix après réduction */
+.prix-reduit {
+    color: #E74C3C; /* Rouge vif pour attirer l'attention */
+    font-weight: bold; /* Mettre en gras */
+    font-size: 1.2em; /* Plus grand pour plus de visibilité */
+    margin-left: 10px; /* Espace entre les deux prix */
+}
+
+/* Badge de réduction */
+.badge-reduction {
+    background-color: #27AE60; 
+    color: white;
+    padding: 2px 6px;
+    border-radius: 5px;
+    font-size: 0.8em;
+    margin-left: 10px; /* Espace entre le prix réduit et la réduction */
+}
+
+
+
+/*******************section respiration ****************************************************/
+
+
+.section-respiration {
+    display: flex;
+    flex-direction: row;
+    text-align: center; /* Centrer le texte et l'image */
+    padding: 50px 20px; /* Ajoute un padding généreux pour créer de l'espace */
+    background-color: #1b1a1a; /* Couleur de fond claire pour contraster avec le reste de la page */
+    margin-top: 50px; /* Ajoute de l'espace au-dessus de la section pour bien la séparer des cards */
+    border-radius: 10px; /* Bordures arrondies pour une touche plus douce */
+    margin-bottom: 100px;
+}
+
+.section-respiration h2 {
+    font-size: 2em;
+    color: #f7f5f5;
+    margin-bottom: 20px;
+}
+
+.section-respiration p {
+    font-size: 1.2em;
+    color: #c8c7c7;
+    margin-bottom: 30px;
+}
+
+.image-respiration {
+    max-width: 50%;
+    height: 400px;
+}
+.text-chogan{
+    padding: 50px;
+}
+
+
+
+
+/***************************************************************************************************
+
+                                css du panier 
+
+
+***************************************************************************************************/
+
+
+
+
+h1{
+    margin: 10px 0px;
+}
+
+.panier-cards {
+    display: flex;
+    flex-direction: column; /* Aligner les cartes verticalement */
+    gap: 20px; /* Espacement entre les cartes */
+    margin: 100px 0px;
+    
+}
+
+.produit-card {
+    display: flex; /* Afficher l'image et les informations côte à côte */
+    border: 1px solid #ccc; /* Bordure autour de chaque carte */
+    border-radius: 8px; /* Coins arrondis */
+    overflow: hidden; /* Masquer le débordement */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Ombre douce */
+    padding: 20px; /* Espacement interne */
+}
+
+.produit-image {
+    width: 200px; 
+    max-height: 200px; 
+    margin-right: 20px; /* Espace entre l'image et le texte */
+}
+
+.produit-info {
+    display: flex;
+    flex-direction: column; /* Aligner les éléments de texte verticalement */
+}
+
+.prix, .quantite, .total {
+    font-weight: bold; /* Mettre le texte en gras */
+}
+
+.actions {
+    margin-top: auto; /* Pousser les actions vers le bas */
+}
+
+.btn {
+    text-decoration: none; /* Enlever le soulignement des liens */
+    color: white; /* Couleur du texte */
+    background-color: #a9a996; /* Couleur de fond */
+    padding: 8px 12px; /* Espacement interne */
+    border-radius: 5px; /* Coins arrondis */
+    margin-right: 5px; /* Espacement entre les boutons */
+}
+
+.btn-danger {
+    background-color: #dc3545; /* Couleur de fond rouge pour le bouton supprimer */
+}
+
+.btn-dark {
+    background-color: #343a40; /* Couleur de fond sombre */
+}
+
+.total-panier {
+    margin-top: 20px; /* Espace au-dessus du total */
+    font-size: 1.2em; /* Agrandir la police */
+    font-weight: bold; /* Mettre le texte en gras */
+    margin-bottom: 50px;
+}
+
+.total-panier p{
+    margin-bottom: 50px;
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 /*******************responsive design ****************************************************/
 
@@ -396,3 +600,6 @@ h6 {
         flex: 0 0 100%; /* 1 carte par ligne sur mobile */
     }
 }
+
+
+
