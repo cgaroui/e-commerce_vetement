@@ -4,11 +4,21 @@
 <ul>
     {% for detail in commande.detailCommandes %}
         <li>
-            {{ detail.produit.nom }} - Quantité : {{ detail.quantite }} - Prix : {{ detail.produit.prix * detail.quantite }} €
+            {{ detail.produit.nom }} - Quantité : {{ detail.quantite }} <br>
+              
+            {% if detail.produit.reduction %}
+                <p class="texte-produit">
+                    {# <span class="prix-original">{{ detail.produit.prix }} €</span> #}
+                    - Prix : <span class="prix-reduit">{{ (detail.produit.prix - detail.produit.prix * detail.produit.reduction / 100) | number_format(2, '.', ',') }} €</span>                                    
+                    {# <span class="badge-reduction">{{ detail.produit.reduction }}% de réduction</span> #}
+                    </p>
+            {% else %}
+            - Prix : <p class="texte-produit">{{ detail.produit.prix }} €</p>
+            {% endif %}
         </li>
     {% endfor %}
 </ul>
 
 <a href="{{ path('paiment_stripe', {'refCommande': commande.refCommande}) }}">Payer</a>
 
-<p>Total : {{ commande.prixTotal }} €</p>
+<p>Total : {{ commande.prixTotal | number_format(2, '.', ',')}} €</p>

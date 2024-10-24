@@ -3,8 +3,9 @@
 namespace App\Repository;
 
 use App\Entity\Produit;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use App\Model\SearchData;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**
  * @extends ServiceEntityRepository<Produit>
@@ -46,6 +47,24 @@ class ProduitRepository extends ServiceEntityRepository
             ->setMaxResults($limit) // pour choisir le nombre de produit limit à afficher 
             ->getQuery()
             ->getResult();
+    }
+
+    //produits par recherche 
+    public function findBySearch(SearchData $searchData)
+    {
+        $qb = $this->createQueryBuilder('p');
+
+        if (!empty($searchData->q)) {
+            // Recherche mot clé dans les noms ou descriptions des produits
+            //l'expression orX() permet de rechercher dans plusieurs colonnes ici nom et description
+            $qb->andWhere($qb->expr()->orX(
+                $qb->expr()->like('p.nom', ':q'),
+                $qb->expr()->like('p.description', ':q')
+            ))
+            ->setParameter('q', '%' . $searchData->q . '%');
+        }
+
+        return $qb; // Retourne le QueryBuilder (pas un tableau de résultats)
     }
 
 }

@@ -60,8 +60,21 @@ class CommandesController extends AbstractController
                 $detailCommande->setQuantite($quantite);
                 $detailCommande->setCommande($commande);
 
+                 // Calcul du prix unitaire avec ou sans réduction
+                $prix = $produit->getPrix();
+                if ($produit->getReduction() !== null && $produit->getReduction() > 0) {
+                    $prixUnitaire = $prix - (($prix * $produit->getReduction()) / 100);
+                } else {
+                    $prixUnitaire = $produit->getPrix();
+                }
+
+                // Ajouter le prix total de chaque produit (quantité * prix unitaire avec réduction si applicable)
+                $prixTotal += $prixUnitaire * $quantite;
+
+                // Ajouter le détail de commande au produit
                 $commande->addDetailCommande($detailCommande);
-                $prixTotal += $produit->getPrix() * $quantite; 
+                }
+                
         }
 
         //mettre à jour le prix total et sauvegarder la commande en bdd
@@ -78,10 +91,9 @@ class CommandesController extends AbstractController
         'refCommande' => $commande->getRefCommande()
         ]);
     
-        }
     }
     
-
+    
 
     #[Route('/commande/confirmation/{id}', name: 'confirmation_commande')]
     public function confirmationCommande(Commande $commande): Response
@@ -93,4 +105,5 @@ class CommandesController extends AbstractController
          
         ]);
     }
+
 }

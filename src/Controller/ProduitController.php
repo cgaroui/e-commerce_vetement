@@ -20,16 +20,18 @@ class ProduitController extends AbstractController
     #[Route('/produits', name: 'app_produit')]
     public function index(ProduitRepository $repository, Request $request, PaginatorInterface $paginator): Response
     {
+        // Pagination des résultats
         $produits = $paginator->paginate( 
-        $repository->findAll(),
-        $request->query->getInt('page', 1), /*numero de page*/
-        9 /*limit par page*/
-            );
+            $repository->findAll(), 
+            $request->query->getInt('page', 1), // Numéro de page
+            9 // Limite par page
+        );
 
         return $this->render('produit/index.html.twig', [
-            'produits' => $produits
+            'produits' => $produits, // Les produits paginés
         ]);
     }
+
 
     #[Route('/produit/nouveau', name: 'nouveau_produit')]
     public function new(Request $request, EntityManagerInterface $manager): Response

@@ -31,7 +31,7 @@
         {% endif %}
 
         <div class="total-panier">
-            <p>Total du panier : <strong>{{ total }} €</strong></p>
+            <p>Total du panier : <strong>{{ total |number_format(2, '.', ',')}} €</strong></p>
             <a href="{{ path('vider_panier') }}" class="btn btn-danger">Vider le panier</a>
             <a href="{{ path('ajout_commande') }}" class="btn btn-dark">Valider le panier</a>
         </div>

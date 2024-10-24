@@ -1,31 +1,56 @@
 <?php
 namespace App\Controller;
 
+use App\Form\SearchType;
+use App\Model\SearchData;
 use App\Repository\ProduitRepository;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Knp\Component\Pager\PaginatorInterface;
 
 class HomeController extends AbstractController
 {
-    #[Route('/home', name: 'app_home')]
+    #[Route('/', name: 'app_home')]
     public function index(ProduitRepository $repository, Request $request, PaginatorInterface $paginator): Response
     {
-        // Récupérer la liste des nouveaux produits
-        $produitsQuery = $repository->findProduitsNouveaux();
-
-        // Pagination des produits
+        // Création de l'objet de recherche et du formulaire
+        $searchData = new SearchData();
+        $form = $this->createForm(SearchType::class, $searchData);
+        $form->handleRequest($request);
+    
+        // Définition de la page actuelle
+        $searchData->page = $request->query->getInt('page', 1);
+    
+        // Si le formulaire est soumis et valide
+        if ($form->isSubmitted() && $form->isValid()) {
+            // Recherche des produits filtrés par la recherche
+            $query = $repository->findBySearch($searchData); // Retourne un QueryBuilder ou une Query
+    
+            // Pagination des résultats de recherche
+            $produits = $paginator->paginate(
+                $query,
+                $searchData->page,
+                9 // Nombre d'éléments par page
+            );
+    
+            return $this->render('produit/index.html.twig', [
+                'form' => $form->createView(),
+                'produits' => $produits, // Produits paginés
+            ]);
+        }
+    
+        // Produits par défaut si aucune recherche n'est soumise
         $produits = $paginator->paginate(
-            $produitsQuery, // Query des produits
-            $request->query->getInt('page', 1), // Récupérer le numéro de la page actuelle (par défaut 1)
-            3 // Limite d'éléments par page
+            $repository->findAll(), // Requête pour tous les produits 
+            $searchData->page,
+            9 // Nombre d'éléments par page
         );
-
+    
         return $this->render('home/index.html.twig', [
-            'controller_name' => 'HomeController',
-            'produits' => $produits,
+            'form' => $form->createView(),
+            'produits' => $produits, // Produits paginés par défaut
         ]);
     }
 }
